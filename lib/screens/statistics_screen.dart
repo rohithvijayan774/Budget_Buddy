@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_management/screens/search_transactions.dart';
 import 'package:money_management/widgets/date_picker.dart';
 
 class StatisticsScreen extends StatelessWidget {
@@ -11,9 +12,14 @@ class StatisticsScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text('STATISTICS'),
-      ),
-      body: Center(
-        child: DatePicker(),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SearchTransactions()));
+              },
+              icon: const Icon(Icons.search))
+        ],
       ),
     );
   }

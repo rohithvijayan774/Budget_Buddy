@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 
-import 'package:money_management/screens/add_income_expense.dart';
+import 'package:money_management/unused/add_income_expense.dart';
+import 'package:money_management/screens/splash_screen.dart';
 import 'package:money_management/widgets/accounts_card.dart';
+import 'package:money_management/unused/add_expense.dart';
+import 'package:money_management/widgets/add_amount.dart';
 
 class AccountsScreen extends StatelessWidget {
   const AccountsScreen({super.key});
@@ -16,9 +19,32 @@ class AccountsScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 14, 69, 113),
         child: const Icon(Icons.add),
         onPressed: () {
+          // final _sample = TransactionModel(
+          //   id: '1',
+          //   incomeAmount: '10000',
+          //   date: DateTime.now().toString(),
+          //   category: 'Travel',
+          //   note: 'Travel Expense',
+          // );
+          // TransactionDB().insertTransactions(_sample);
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const AddIncomeExpense(),
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation,
+                  Animation<double> secondaryAnimation) {
+                return const AddIncome();
+              },
+              transitionsBuilder: (BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                  Widget child) {
+                return Align(
+                  child: SizeTransition(
+                    sizeFactor: animation,
+                    child: child,
+                  ),
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 400),
             ),
           );
         },

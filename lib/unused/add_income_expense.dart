@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:money_management/widgets/add_expense.dart';
-import 'package:money_management/widgets/add_income.dart';
+import 'package:money_management/unused/add_expense.dart';
+
+import 'package:money_management/widgets/add_amount.dart';
 
 class AddIncomeExpense extends StatefulWidget {
   const AddIncomeExpense({super.key});
@@ -13,10 +14,10 @@ class AddIncomeExpense extends StatefulWidget {
 
 class _AddIncomeExpenseState extends State<AddIncomeExpense>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  late TabController tabController;
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -36,7 +37,7 @@ class _AddIncomeExpenseState extends State<AddIncomeExpense>
             Material(
               color: const Color.fromARGB(255, 14, 69, 113),
               child: TabBar(
-                controller: _tabController,
+                controller: tabController,
                 tabs: const [
                   Tab(
                     text: 'INCOME',
@@ -49,7 +50,7 @@ class _AddIncomeExpenseState extends State<AddIncomeExpense>
             ),
             Expanded(
               child: TabBarView(
-                controller: _tabController,
+                controller: tabController,
                 children: const [
                   Center(
                     child: AddIncome(),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:money_management/functions/user_name_db.dart';
+import 'package:money_management/model/user_name_model.dart';
 import 'package:money_management/screens/home_screen.dart';
 
 class NameScreen extends StatelessWidget {
@@ -27,12 +30,14 @@ class NameScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'MY MONEY',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.caveat(
+                    textStyle: const TextStyle(fontSize: 50)),
+                // style: TextStyle(
+                //   fontSize: 40,
+                //   fontWeight: FontWeight.bold,
+                // ),
               ),
               const SizedBox(
                 height: 50,
@@ -50,6 +55,7 @@ class NameScreen extends StatelessWidget {
                   Form(
                     key: _nameFormKey,
                     child: TextFormField(
+                      textCapitalization: TextCapitalization.words,
                       controller: _nameController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(
@@ -93,15 +99,21 @@ class NameScreen extends StatelessWidget {
   }
 
   Future<void> submitButtonClicked(BuildContext context) async {
-    final name = _nameController.text.trim();
-    if (name.isEmpty) {
+    final userName = _nameController.text.trim();
+    if (userName.isEmpty) {
       return;
-    } else {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
     }
+    final _username = UserNameModel(user: userName);
+    UserNameDB().addUserName(_username);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+
+    // else {
+    //   Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //       builder: (context) => HomeScreen(),
+    //     ),
+    //   );
+    // }
   }
 }

@@ -6,22 +6,23 @@ class TransactionModel {
   @HiveField(0)
   final String id;
   @HiveField(1)
-  final String incomeAmount;
+  final String amount;
   @HiveField(2)
   final String date;
   @HiveField(3)
   final String category;
   @HiveField(4)
-  final String note;
+  final String type;
 
-  TransactionModel(
-      {required this.id,
-      required this.incomeAmount,
-      required this.date,
-      required this.category,
-      required this.note});
+  TransactionModel({
+    required this.id,
+    required this.amount,
+    required this.date,
+    required this.category,
+    required this.type,
+  });
   @override
   String toString() {
-    return '{$incomeAmount $date}';
+    return '{$id $amount $date $category $type}';
   }
 }

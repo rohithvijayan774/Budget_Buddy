@@ -18,10 +18,10 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
     };
     return TransactionModel(
       id: fields[0] as String,
-      incomeAmount: fields[1] as String,
+      amount: fields[1] as String,
       date: fields[2] as String,
       category: fields[3] as String,
-      note: fields[4] as String,
+      type: fields[4] as String,
     );
   }
 
@@ -32,13 +32,13 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.incomeAmount)
+      ..write(obj.amount)
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
       ..write(obj.category)
       ..writeByte(4)
-      ..write(obj.note);
+      ..write(obj.type);
   }
 
   @override

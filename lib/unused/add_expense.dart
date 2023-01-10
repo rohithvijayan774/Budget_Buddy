@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
-import 'category_list.dart';
+import 'package:intl/intl.dart';
+import 'package:money_management/functions/transaction_db.dart';
+import 'package:money_management/model/transaction_model.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -17,6 +18,7 @@ class _AddExpenseState extends State<AddExpense> {
   final _dateController = TextEditingController();
   final _categoryController = TextEditingController();
   final _noteController = TextEditingController();
+  final _typeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -85,13 +87,36 @@ class _AddExpenseState extends State<AddExpense> {
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'This field is required';
                   } else {
                     return null;
+                  }
+                },
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
+                  if (pickedDate != null) {
+                    print(pickedDate);
+                    String formattedDate =
+                        DateFormat('dd-MM-yyyy').format(pickedDate);
+                    print(formattedDate);
+                    setState(() {
+                      _dateController.text = formattedDate;
+                    });
+                  } else {
+                    print('Date is not selected');
                   }
                 },
               ),
@@ -108,7 +133,26 @@ class _AddExpenseState extends State<AddExpense> {
               const SizedBox(
                 height: 10,
               ),
-              const CategoryList(),
+              // const CategoryList(),
+              TextFormField(
+                controller: _categoryController,
+                decoration: const InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'This field is required';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -192,9 +236,20 @@ class _AddExpenseState extends State<AddExpense> {
     final date = _dateController.text.trim();
     final category = _categoryController.text.trim();
     final note = _noteController.text.trim();
+    final type = _typeController.text.trim();
     if (expense.isEmpty || date.isEmpty || category.isEmpty || note.isEmpty) {
       return;
     }
+    final _expenseTransaction = TransactionModel(
+      id: DateTime.now().toString(),
+      amount: expense,
+      date: date,
+      category: category,
+      type: note,
+    );
+
+    TransactionDB().insertTransactions(_expenseTransaction);
+    Navigator.of(context).pop();
   }
 
   Future<void> fromBankButtonClicked() async {
