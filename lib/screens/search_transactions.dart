@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/transaction_screen.dart';

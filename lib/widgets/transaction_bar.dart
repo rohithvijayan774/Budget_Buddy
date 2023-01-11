@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:money_management/functions/transaction_db.dart';
+import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/screens/splash_screen.dart';
 
 class TransactionBar extends StatefulWidget {
@@ -24,82 +26,97 @@ class TransactionBar extends StatefulWidget {
 class _TransactionBarState extends State<TransactionBar> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (BuildContext context, Animation<double> animation,
-                Animation<double> secondaryAnimation) {
-              return const SplashScreen();
-            },
-            transitionsBuilder: (BuildContext context,
-                Animation<double> animation,
-                Animation<double> secondaryAnimation,
-                Widget child) {
-              return Align(
-                child: SizeTransition(
-                  sizeFactor: animation,
-                  child: child,
+    return ValueListenableBuilder(
+      valueListenable: TransactionDB().allTransactionList,
+      builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            final transaction = newList[index];
+            return GestureDetector(
+              onLongPress: () {
+                TransactionDB.instance.deleteTransactions(transaction.id);
+              },
+              onTap: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation) {
+                      return const SplashScreen();
+                    },
+                    transitionsBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
+                      return Align(
+                        child: SizeTransition(
+                          sizeFactor: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 400),
+                  ),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                height: 80,
+                width: 500,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 202, 200, 200),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black,
+                        offset: Offset(0, 5),
+                        blurRadius: 10,
+                        spreadRadius: 1)
+                  ],
                 ),
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 400),
-          ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(widget.date),
+                        Text(
+                          widget.type,
+                          style: TextStyle(
+                              color: widget.type == 'Income'
+                                  ? Colors.green
+                                  : Colors.red),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '₹${widget.amount}',
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          widget.category,
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        height: 80,
-        width: 500,
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 202, 200, 200),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-          ),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black,
-                offset: Offset(0, 5),
-                blurRadius: 10,
-                spreadRadius: 1)
-          ],
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(widget.date),
-                Text(
-                  widget.type,
-                  style: TextStyle(
-                      color:
-                          widget.type == 'Income' ? Colors.green : Colors.red),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '₹${widget.amount}',
-                  style: const TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  widget.category,
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

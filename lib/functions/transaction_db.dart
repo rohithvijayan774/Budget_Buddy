@@ -7,6 +7,7 @@ const TRANSACTION_DB_NAME = 'transaction-database';
 abstract class TransactionDbFunction {
   Future<List<TransactionModel>> getTransactions();
   Future<void> insertTransactions(TransactionModel value);
+  Future<void> deleteTransactions(String transactionID);
 }
 
 class TransactionDB implements TransactionDbFunction {
@@ -15,34 +16,30 @@ class TransactionDB implements TransactionDbFunction {
   factory TransactionDB() {
     return instance;
   }
-  // ValueNotifier<List<TransactionModel>> incomeTransactionList =
-  //     ValueNotifier([]);
-  // ValueNotifier<List<TransactionModel>> expenseTransactionList =
-  //     ValueNotifier([]);
+
   ValueNotifier<List<TransactionModel>> allTransactionList = ValueNotifier([]);
   @override
   Future<void> insertTransactions(TransactionModel value) async {
-    final _transactionDB =
+    final transactionDB =
         await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
-    await _transactionDB.add(value);
+    await transactionDB.add(value);
 
     refreshUI();
   }
 
   @override
   Future<List<TransactionModel>> getTransactions() async {
-    final _transactionDB =
+    final transactionDB =
         await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
-    return _transactionDB.values.toList();
+    return transactionDB.values.toList();
   }
 
   Future<void> refreshUI() async {
-    final _allTransactions = await getTransactions();
+    final allTransactions = await getTransactions();
     allTransactionList.value.clear();
-    // incomeTransactionList.value.clear();
-    // expenseTransactionList.value.clear();
+
     await Future.forEach(
-      _allTransactions,
+      allTransactions,
       (TransactionModel transaction) {
         allTransactionList.value.add(transaction);
         // if (transaction.category == 'income') {
@@ -52,8 +49,14 @@ class TransactionDB implements TransactionDbFunction {
         // }
       },
     );
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     allTransactionList.notifyListeners();
-    // incomeTransactionList.notifyListeners();
-    // expenseTransactionList.notifyListeners();
+  }
+
+  @override
+  Future<void> deleteTransactions(String transactionID) async {
+    final transactionDB = await Hive.openBox(TRANSACTION_DB_NAME);
+    await transactionDB.delete(transactionID);
+    refreshUI();
   }
 }

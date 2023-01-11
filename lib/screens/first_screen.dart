@@ -99,7 +99,7 @@ class _FirstScreenState extends State<FirstScreen> {
         builder: (BuildContext ctx, List<UserNameModel> newList, Widget? _) {
           return Column(
             children: [
-              UserNameBar(nameUser: newList[1].user),
+              UserNameBar(nameUser: newList[0].user),
               Container(
                 padding: const EdgeInsets.only(
                   left: 17,

@@ -1,7 +1,12 @@
+import 'dart:developer';
+
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
+
+import 'category_list.dart';
 
 class AddIncome extends StatefulWidget {
   const AddIncome({super.key});
@@ -14,9 +19,20 @@ class _AddIncomeState extends State<AddIncome> {
   final _amountController = TextEditingController();
   final _dateController = TextEditingController();
   final _categoryController = TextEditingController();
-  final _typeController = TextEditingController();
-
+  // final _typeController = TextEditingController();
+  late SingleValueDropDownController _typeController;
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    _typeController = SingleValueDropDownController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _typeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +174,7 @@ class _AddIncomeState extends State<AddIncome> {
                     }
                   },
                 ),
+
                 const SizedBox(
                   height: 10,
                 ),
@@ -172,22 +189,38 @@ class _AddIncomeState extends State<AddIncome> {
                   height: 10,
                 ),
 
-                TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
+                // TextFormField(
+                //   textCapitalization: TextCapitalization.sentences,
+                //   controller: _typeController,
+                //   decoration: const InputDecoration(
+                //     filled: true,
+                //     fillColor: Colors.white,
+                //     border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.all(Radius.circular(50))),
+                //   ),
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'This field is required';
+                //     } else {
+                //       return null;
+                //     }
+                //   },
+                // ),
+                DropDownTextField(
                   controller: _typeController,
-                  decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                  ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null) {
                       return 'This field is required';
                     } else {
                       return null;
                     }
                   },
+                  dropDownList: const [
+                    DropDownValueModel(name: 'Income', value: 'Income'),
+                    DropDownValueModel(name: 'Expense', value: 'Expense'),
+                  ],
+                  dropDownItemCount: 2,
+                  onChanged: (value) {},
                 ),
                 const SizedBox(
                   height: 30,
@@ -204,8 +237,9 @@ class _AddIncomeState extends State<AddIncome> {
                         backgroundColor: Colors.white,
                       ),
                       onPressed: () {
-                        toCashButtonClicked();
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          toCashButtonClicked();
+                        }
                       },
                       child: const Text(
                         'TO CASH',
@@ -243,19 +277,21 @@ class _AddIncomeState extends State<AddIncome> {
     final amount = _amountController.text.trim();
     final date = _dateController.text.trim();
     final category = _categoryController.text.trim();
-    final type = _typeController.text.trim();
+    final type = _typeController.toString().trim();
 
     if (amount.isEmpty || date.isEmpty || category.isEmpty || type.isEmpty) {
       return;
     }
-    final _incomeTransaction = TransactionModel(
+
+    final addAmount = TransactionModel(
       id: DateTime.now().toString(),
       amount: amount,
       date: date,
       category: category,
       type: type,
     );
-    TransactionDB().insertTransactions(_incomeTransaction);
+    TransactionDB().insertTransactions(addAmount);
+
     Navigator.of(context).pop();
   }
 
@@ -263,7 +299,7 @@ class _AddIncomeState extends State<AddIncome> {
     final income = _amountController.text.trim();
     final date = _dateController.text.trim();
     final category = _categoryController.text.trim();
-    final type = _typeController.text.trim();
+    final type = _typeController.toString().trim();
     if (income.isEmpty || date.isEmpty || category.isEmpty || type.isEmpty) {
       return;
     }
