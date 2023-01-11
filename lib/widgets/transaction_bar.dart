@@ -29,82 +29,58 @@ class _TransactionBarState extends State<TransactionBar> {
     return ValueListenableBuilder(
       valueListenable: TransactionDB().allTransactionList,
       builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                pageBuilder: (BuildContext context, Animation<double> animation,
-                    Animation<double> secondaryAnimation) {
-                  return const SplashScreen();
-                },
-                transitionsBuilder: (BuildContext context,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                    Widget child) {
-                  return Align(
-                    child: SizeTransition(
-                      sizeFactor: animation,
-                      child: child,
-                    ),
-                  );
-                },
-                transitionDuration: const Duration(milliseconds: 400),
-              ),
-            );
-          },
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            height: 80,
-            width: 500,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 202, 200, 200),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(0, 5),
-                    blurRadius: 10,
-                    spreadRadius: 1)
-              ],
+        return Container(
+          padding: const EdgeInsets.all(15),
+          height: 80,
+          width: 500,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 202, 200, 200),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
             ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(widget.date),
-                    Text(
-                      widget.type,
-                      style: TextStyle(
-                          color: widget.type == 'Income'
-                              ? Colors.green
-                              : Colors.red),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '₹${widget.amount}',
-                      style: const TextStyle(
-                          fontSize: 25, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      widget.category,
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(0, 5),
+                  blurRadius: 10,
+                  spreadRadius: 1)
+            ],
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.date),
+                  Text(
+                    widget.type,
+                    style: TextStyle(
+                        color: widget.type == 'Income'
+                            ? Colors.green
+                            : Colors.red),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '₹${widget.amount}',
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    widget.category,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },

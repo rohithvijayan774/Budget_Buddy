@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
+import 'package:money_management/screens/splash_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
 
@@ -101,11 +104,45 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     child: ListView.separated(
                         itemBuilder: (context, index) {
                           final transaction = newList[index];
-                          return TransactionBar(
-                              date: transaction.date,
-                              type: transaction.type,
-                              amount: transaction.amount,
-                              category: transaction.category);
+                          return GestureDetector(
+                            // onHorizontalDragStart: (details) {
+                            //   log('drag');
+                            //   TransactionDB.instance
+                            //       .deleteTransactions(transaction.id);
+                            // },
+                            onLongPress: () {
+                              log('long pressed');
+                              TransactionDB.instance
+                                  .deleteTransactions(transaction.id);
+                            },
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder: (BuildContext context,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation) {
+                                    return const SplashScreen();
+                                  },
+                                  transitionsBuilder: (BuildContext context,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation,
+                                      child) {
+                                    return Align(
+                                      child: SizeTransition(
+                                        sizeFactor: animation,
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            child: TransactionBar(
+                                date: transaction.date,
+                                type: transaction.type,
+                                amount: transaction.amount,
+                                category: transaction.category),
+                          );
                         },
                         separatorBuilder: (context, index) {
                           return const SizedBox(

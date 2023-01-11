@@ -22,7 +22,7 @@ class TransactionDB implements TransactionDbFunction {
   Future<void> insertTransactions(TransactionModel value) async {
     final transactionDB =
         await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
-    await transactionDB.add(value);
+    await transactionDB.put(value.id, value);
 
     refreshUI();
   }
@@ -55,7 +55,8 @@ class TransactionDB implements TransactionDbFunction {
 
   @override
   Future<void> deleteTransactions(String transactionID) async {
-    final transactionDB = await Hive.openBox(TRANSACTION_DB_NAME);
+    final transactionDB =
+        await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
     await transactionDB.delete(transactionID);
     refreshUI();
   }
