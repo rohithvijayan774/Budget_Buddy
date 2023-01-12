@@ -4,6 +4,7 @@ import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/model/user_name_model.dart';
 import 'package:money_management/screens/name_screen.dart';
+import 'package:money_management/screens/splash_screen.dart';
 
 Future<void> main() async {
   final obj1 = TransactionDB();
@@ -30,12 +31,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'My Money',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(color: Color.fromARGB(255, 14, 69, 113)),
         primarySwatch: Colors.blue,
       ),
-      home: NameScreen(),
+      home: const SplashScreen(),
     );
   }
 }

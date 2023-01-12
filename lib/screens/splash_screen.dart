@@ -12,16 +12,28 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  void initState() {
+    gotoUserName();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: const Text('MY MONEY APP'),
+        child: Image.asset(
+          'lib/assets/icons/wallet.png',
+          scale: 2,
+        ),
       ),
     );
   }
 
   Future<void> gotoUserName() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(
+      const Duration(seconds: 2),
+    );
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (ctx) => NameScreen(),

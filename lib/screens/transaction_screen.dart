@@ -68,6 +68,67 @@ class _TransactionScreenState extends State<TransactionScreen> {
       body: ValueListenableBuilder(
         valueListenable: TransactionDB().allTransactionList,
         builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
+          if (newList.isEmpty) {
+            return Center(
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        height: 100,
+                        color: const Color.fromARGB(255, 14, 69, 113),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          right: 10,
+                          left: 10,
+                        ),
+                        width: 1000,
+                        height: 1000,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 17, 52, 81),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(0, 5),
+                                blurRadius: 10,
+                                spreadRadius: 1)
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'lib/assets/images/emptywallet.png',
+                              scale: 6,
+                              color: Colors.white38,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Text(
+                              'No Transactions available',
+                              style: TextStyle(
+                                  color: Colors.white60, fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
           return Stack(
             children: [
               Column(
