@@ -89,8 +89,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           right: 10,
                           left: 10,
                         ),
-                        width: 1000,
-                        height: 1000,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
                         decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 17, 52, 81),
                           borderRadius: BorderRadius.only(

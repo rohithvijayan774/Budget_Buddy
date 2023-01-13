@@ -4,6 +4,7 @@ import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/functions/user_name_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/model/user_name_model.dart';
+import 'package:money_management/screens/transaction_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
 import 'package:money_management/widgets/user_name_bar.dart';
@@ -169,31 +170,37 @@ class _FirstScreenState extends State<FirstScreen> {
               const SizedBox(
                 height: 30,
               ),
-              Container(
-                padding: const EdgeInsets.all(20),
-                height: 100,
-                width: 500,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                    color: Color.fromARGB(255, 14, 69, 113),
                   ),
-                  color: Color.fromARGB(255, 14, 69, 113),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Recent transactions :',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
+                  child: ListView(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Recent transactions :',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],

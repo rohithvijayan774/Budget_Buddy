@@ -18,21 +18,9 @@ class AddIncome extends StatefulWidget {
 class _AddIncomeState extends State<AddIncome> {
   final _amountController = TextEditingController();
   final _dateController = TextEditingController();
-  final _categoryController = TextEditingController();
-  // final _typeController = TextEditingController();
-  late SingleValueDropDownController _typeController;
   final _formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    _typeController = SingleValueDropDownController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _typeController.dispose();
-    super.dispose();
-  }
+  String? _categoryController;
+  String? _typeController;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +127,6 @@ class _AddIncomeState extends State<AddIncome> {
                     }
                   },
                 ),
-
                 const SizedBox(
                   height: 10,
                 ),
@@ -153,19 +140,78 @@ class _AddIncomeState extends State<AddIncome> {
                 const SizedBox(
                   height: 10,
                 ),
-                // const CategoryList(),
-                TextFormField(
-                  textCapitalization: TextCapitalization.words,
-                  controller: _categoryController,
+                // TextFormField(
+                //   textCapitalization: TextCapitalization.words,
+                //   controller: _categoryController,
+                //   decoration: const InputDecoration(
+                //     filled: true,
+                //     fillColor: Colors.white,
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.all(
+                //         Radius.circular(50),
+                //       ),
+                //     ),
+                //   ),
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'This field is required';
+                //     } else {
+                //       return null;
+                //     }
+                //   },
+                // ),
+                DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
+                        ),
                       ),
+                      filled: true,
+                      fillColor: Colors.white),
+                  hint: const Text('Categories...'),
+                  value: _categoryController,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'Travel',
+                      child: Text('Travel'),
                     ),
-                  ),
+                    DropdownMenuItem(
+                      value: 'Entertainment',
+                      child: Text('Entertainment'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Food/Drink',
+                      child: Text('Food/Drink'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Rent',
+                      child: Text('Rent'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Loan',
+                      child: Text('Loan'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Salary',
+                      child: Text('Salary'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Commission',
+                      child: Text('Commission'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Other',
+                      child: Text('Other'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        _categoryController = value;
+                      },
+                    );
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field is required';
@@ -174,7 +220,6 @@ class _AddIncomeState extends State<AddIncome> {
                     }
                   },
                 ),
-
                 const SizedBox(
                   height: 10,
                 ),
@@ -188,39 +233,41 @@ class _AddIncomeState extends State<AddIncome> {
                 const SizedBox(
                   height: 10,
                 ),
-
-                // TextFormField(
-                //   textCapitalization: TextCapitalization.sentences,
-                //   controller: _typeController,
-                //   decoration: const InputDecoration(
-                //     filled: true,
-                //     fillColor: Colors.white,
-                //     border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.all(Radius.circular(50))),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'This field is required';
-                //     } else {
-                //       return null;
-                //     }
-                //   },
-                // ),
-                DropDownTextField(
-                  controller: _typeController,
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white),
+                  hint: const Text('Select Type'),
+                  value: _typeController,
+                  isExpanded: true,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'Income',
+                      child: Text('Income'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Expense',
+                      child: Text('Expense'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    print(value);
+                    setState(() {
+                      _typeController = value;
+                    });
+                  },
                   validator: (value) {
-                    if (value == null) {
+                    if (value == null || value.isEmpty) {
                       return 'This field is required';
                     } else {
                       return null;
                     }
                   },
-                  dropDownList: const [
-                    DropDownValueModel(name: 'Income', value: 'Income'),
-                    DropDownValueModel(name: 'Expense', value: 'Expense'),
-                  ],
-                  dropDownItemCount: 2,
-                  onChanged: (value) {},
                 ),
                 const SizedBox(
                   height: 30,
@@ -276,10 +323,10 @@ class _AddIncomeState extends State<AddIncome> {
   Future<void> toCashButtonClicked() async {
     final amount = _amountController.text.trim();
     final date = _dateController.text.trim();
-    final category = _categoryController.text.trim();
-    final type = _typeController.toString().trim();
+    final category = _categoryController;
+    final type = _typeController;
 
-    if (amount.isEmpty || date.isEmpty || category.isEmpty || type.isEmpty) {
+    if (amount.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
       return;
     }
 
@@ -298,9 +345,9 @@ class _AddIncomeState extends State<AddIncome> {
   Future<void> toBankButtonClicked() async {
     final income = _amountController.text.trim();
     final date = _dateController.text.trim();
-    final category = _categoryController.text.trim();
-    final type = _typeController.toString().trim();
-    if (income.isEmpty || date.isEmpty || category.isEmpty || type.isEmpty) {
+    final category = _categoryController;
+    final type = _typeController;
+    if (income.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
       return;
     }
   }
