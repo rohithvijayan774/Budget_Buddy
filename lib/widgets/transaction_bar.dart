@@ -16,7 +16,7 @@ class TransactionBar extends StatefulWidget {
       required this.category});
   final String date;
   final String type;
-  final String amount;
+  final double amount;
   final String category;
 
   @override

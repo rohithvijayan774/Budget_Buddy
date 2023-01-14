@@ -6,7 +6,7 @@ class TransactionModel {
   @HiveField(0)
   final String id;
   @HiveField(1)
-  final String amount;
+  final double amount;
   @HiveField(2)
   final String date;
   @HiveField(3)

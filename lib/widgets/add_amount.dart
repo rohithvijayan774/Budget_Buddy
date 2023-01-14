@@ -329,10 +329,13 @@ class _AddIncomeState extends State<AddIncome> {
     if (amount.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
       return;
     }
-
+    final parsedAmount = double.tryParse(amount);
+    if (parsedAmount == null) {
+      return;
+    }
     final addAmount = TransactionModel(
       id: DateTime.now().toString(),
-      amount: amount,
+      amount: parsedAmount,
       date: date,
       category: category,
       type: type,

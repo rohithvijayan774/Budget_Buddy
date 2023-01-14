@@ -36,19 +36,20 @@ class TransactionDB implements TransactionDbFunction {
 
   Future<void> refreshUI() async {
     final allTransactions = await getTransactions();
+    allTransactions.sort((first, second) => second.date.compareTo(first.date));
     allTransactionList.value.clear();
-
-    await Future.forEach(
-      allTransactions,
-      (TransactionModel transaction) {
-        allTransactionList.value.add(transaction);
-        // if (transaction.category == 'income') {
-        //   incomeTransactionList.value.add(transaction);
-        // } else {
-        //   expenseTransactionList.value.add(transaction);
-        // }
-      },
-    );
+    allTransactionList.value.addAll(allTransactions);
+    // await Future.forEach(
+    //   allTransactions,
+    //   (TransactionModel transaction) {
+    //     allTransactionList.value.add(transaction);
+    //     // if (transaction.category == 'income') {
+    //     //   incomeTransactionList.value.add(transaction);
+    //     // } else {
+    //     //   expenseTransactionList.value.add(transaction);
+    //     // }
+    //   },
+    // );
     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
     allTransactionList.notifyListeners();
   }

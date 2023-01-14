@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 
-import 'package:money_management/unused/add_income_expense.dart';
 import 'package:money_management/screens/splash_screen.dart';
 import 'package:money_management/widgets/accounts_card.dart';
-import 'package:money_management/unused/add_expense.dart';
 import 'package:money_management/widgets/add_amount.dart';
 
 class AccountsScreen extends StatelessWidget {
