@@ -32,7 +32,7 @@ class _TransactionBarState extends State<TransactionBar> {
         return Container(
           padding: const EdgeInsets.all(15),
           height: 80,
-          width: 500,
+          width: 370,
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 202, 200, 200),
             borderRadius: BorderRadius.only(

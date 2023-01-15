@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/splash_screen.dart';
 
@@ -17,9 +18,17 @@ class TransactionScreen extends StatefulWidget {
 
 class _TransactionScreenState extends State<TransactionScreen> {
   bool isSearching = false;
+  List<TransactionModel> newTransactionList =
+      TransactionDB.instance.allTransactionList.value;
+  List<TransactionModel> foundTransactionNotifier = [];
+
+  int dropdownValue = 1;
+  int dropdownValueforFilterSorting = 0;
+
   @override
   void initState() {
     TransactionDB().refreshUI();
+    foundTransactionNotifier = newTransactionList;
     // TransactionDB().getTransactions().then((value) {
     //   print('transactions get');
     //   print(value.toString());
@@ -29,8 +38,59 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TransactionDB.instance.refreshUI();
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(10),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton(
+              items: [
+                DropdownMenuItem(
+                  value: 1,
+                  onTap: () {
+                    setState(() {
+                      foundTransactionNotifier =
+                          TransactionDB.instance.allTransactionList.value;
+                      dropdownValueforFilterSorting = 0;
+                    });
+                  },
+                  child: const Text('All'),
+                ),
+                DropdownMenuItem(
+                  value: 2,
+                  onTap: () {
+                    setState(() {
+                      foundTransactionNotifier =
+                          TransactionDB.instance.allTransactionList.value;
+                      dropdownValueforFilterSorting = 0;
+                    });
+                  },
+                  child: const Text('Income'),
+                ),
+                DropdownMenuItem(
+                  value: 3,
+                  onTap: () {
+                    setState(() {
+                      foundTransactionNotifier =
+                          TransactionDB.instance.allTransactionList.value;
+                      dropdownValueforFilterSorting = 0;
+                    });
+                  },
+                  child: const Text('Expense'),
+                ),
+              ],
+              dropdownColor: Colors.white,
+              value: dropdownValue,
+              onChanged: (value) {
+                setState(() {
+                  dropdownValue = value!;
+                });
+              },
+            ),
+          ),
+        ),
+        leadingWidth: 100,
         elevation: 0,
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -40,6 +100,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 style: TextStyle(fontSize: 25),
               )
             : TextFormField(
+                onChanged: (value) {},
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                     hintText: 'Search',
@@ -198,11 +259,27 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 ),
                               );
                             },
-                            child: TransactionBar(
-                                date: transaction.date,
-                                type: transaction.type,
-                                amount: transaction.amount,
-                                category: transaction.category),
+                            child: Slidable(
+                              key: Key(transaction.id),
+                              startActionPane:
+                                  ActionPane(motion: ScrollMotion(), children: [
+                                SlidableAction(
+                                  backgroundColor: Colors.red,
+                                  borderRadius: BorderRadius.circular(30),
+                                  onPressed: (context) {
+                                    TransactionDB.instance
+                                        .deleteTransactions(transaction.id);
+                                  },
+                                  icon: Icons.delete,
+                                  label: 'Delete',
+                                )
+                              ]),
+                              child: TransactionBar(
+                                  date: transaction.date,
+                                  type: transaction.type,
+                                  amount: transaction.amount,
+                                  category: transaction.category),
+                            ),
                           );
                         },
                         separatorBuilder: (context, index) {

@@ -18,6 +18,9 @@ class TransactionDB implements TransactionDbFunction {
   }
 
   ValueNotifier<List<TransactionModel>> allTransactionList = ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> incomeNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> expenseNotifier = ValueNotifier([]);
+
   @override
   Future<void> insertTransactions(TransactionModel value) async {
     final transactionDB =
@@ -39,19 +42,22 @@ class TransactionDB implements TransactionDbFunction {
     allTransactions.sort((first, second) => second.date.compareTo(first.date));
     allTransactionList.value.clear();
     allTransactionList.value.addAll(allTransactions);
-    // await Future.forEach(
-    //   allTransactions,
-    //   (TransactionModel transaction) {
-    //     allTransactionList.value.add(transaction);
-    //     // if (transaction.category == 'income') {
-    //     //   incomeTransactionList.value.add(transaction);
-    //     // } else {
-    //     //   expenseTransactionList.value.add(transaction);
-    //     // }
-    //   },
-    // );
-    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+    incomeNotifier.value.clear();
+    expenseNotifier.value.clear();
+    await Future.forEach(
+      allTransactions,
+      (TransactionModel transaction) {
+        // allTransactionList.value.add(transaction);
+        if (transaction.type == 'income') {
+          incomeNotifier.value.add(transaction);
+        } else {
+          expenseNotifier.value.add(transaction);
+        }
+      },
+    );
     allTransactionList.notifyListeners();
+    incomeNotifier.notifyListeners();
+    expenseNotifier.notifyListeners();
   }
 
   @override

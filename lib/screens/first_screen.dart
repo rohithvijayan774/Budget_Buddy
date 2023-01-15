@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/functions/user_name_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/model/user_name_model.dart';
+import 'package:money_management/screens/splash_screen.dart';
 import 'package:money_management/screens/transaction_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
@@ -22,7 +26,7 @@ class _FirstScreenState extends State<FirstScreen> {
   @override
   void initState() {
     UserNameDB().refreshUserUI();
-    // TransactionDB().refreshUI();
+    TransactionDB().refreshUI();
     super.initState();
   }
 
@@ -163,16 +167,21 @@ class _FirstScreenState extends State<FirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     IncomeExpense(label: 'Income :', amount: '0.00'),
-                    IncomeExpense(label: 'Expense :', amount: '0.00')
+                    IncomeExpense(label: 'Expense :', amount: '0.00'),
                   ],
                 ),
               ),
               const SizedBox(
                 height: 30,
               ),
+              const Text(
+                'Recent Transactions :',
+                textAlign: TextAlign.end,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.only(top: 35),
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
@@ -182,24 +191,83 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                     color: Color.fromARGB(255, 14, 69, 113),
                   ),
-                  child: ListView(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Recent transactions :',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      ),
-                    ],
+                  child: ValueListenableBuilder(
+                    valueListenable: TransactionDB().allTransactionList,
+                    builder: (BuildContext ctx,
+                        List<TransactionModel> newTransactionList, Widget? _) {
+                      if (newTransactionList.isEmpty) {
+                        return const Center(
+                          child: Text('No transactions available'),
+                        );
+                      }
+
+                      return ListView.separated(
+                        itemBuilder: (context, index) {
+                          final transaction = newTransactionList[index];
+                          return GestureDetector(
+                            onLongPress: () {
+                              log('long pressed');
+                              TransactionDB.instance
+                                  .deleteTransactions(transaction.id);
+                            },
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder: (BuildContext context,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation) {
+                                    return const SplashScreen();
+                                  },
+                                  transitionsBuilder: (BuildContext context,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation,
+                                      child) {
+                                    return Align(
+                                      child: SizeTransition(
+                                        sizeFactor: animation,
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            child: Slidable(
+                              key: Key(transaction.id),
+                              startActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      backgroundColor: Colors.red,
+                                      borderRadius: BorderRadius.circular(30),
+                                      onPressed: (context) {
+                                        TransactionDB.instance
+                                            .deleteTransactions(transaction.id);
+                                      },
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                    )
+                                  ]),
+                              child: Center(
+                                child: TransactionBar(
+                                    date: transaction.date,
+                                    type: transaction.type,
+                                    amount: transaction.amount,
+                                    category: transaction.category),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 20,
+                          );
+                        },
+                        itemCount: (newTransactionList.length < 3
+                            ? newTransactionList.length
+                            : 3),
+                      );
+                    },
                   ),
                 ),
               )
