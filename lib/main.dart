@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
-import 'package:money_management/model/user_name_model.dart';
 import 'package:money_management/screens/name_screen.dart';
 import 'package:money_management/screens/splash_screen.dart';
 
+const SAVE_KEY_NAME = 'UserLoggenIn';
 Future<void> main() async {
   final obj1 = TransactionDB();
   final obj2 = TransactionDB();
@@ -13,9 +13,6 @@ Future<void> main() async {
   print(obj1 == obj2);
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  if (!Hive.isAdapterRegistered(UserNameModelAdapter().typeId)) {
-    Hive.registerAdapter(UserNameModelAdapter());
-  }
   if (!Hive.isAdapterRegistered(TransactionModelAdapter().typeId)) {
     Hive.registerAdapter(TransactionModelAdapter());
   }

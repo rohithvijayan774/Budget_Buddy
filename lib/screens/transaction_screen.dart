@@ -62,7 +62,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   onTap: () {
                     setState(() {
                       foundTransactionNotifier =
-                          TransactionDB.instance.allTransactionList.value;
+                          TransactionDB.instance.incomeNotifier.value;
                       dropdownValueforFilterSorting = 0;
                     });
                   },
@@ -73,13 +73,14 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   onTap: () {
                     setState(() {
                       foundTransactionNotifier =
-                          TransactionDB.instance.allTransactionList.value;
+                          TransactionDB.instance.expenseNotifier.value;
                       dropdownValueforFilterSorting = 0;
                     });
                   },
                   child: const Text('Expense'),
                 ),
               ],
+              borderRadius: BorderRadius.circular(10),
               dropdownColor: Colors.white,
               value: dropdownValue,
               onChanged: (value) {
@@ -129,170 +130,174 @@ class _TransactionScreenState extends State<TransactionScreen> {
       body: ValueListenableBuilder(
         valueListenable: TransactionDB().allTransactionList,
         builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
-          if (newList.isEmpty) {
-            return Center(
-              child: Stack(
-                children: [
-                  Column(
+          return foundTransactionNotifier.isNotEmpty
+              ? MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: Stack(
                     children: [
-                      Container(
-                        height: 100,
-                        color: const Color.fromARGB(255, 14, 69, 113),
+                      Column(
+                        children: [
+                          Container(
+                            height: 100,
+                            color: const Color.fromARGB(255, 14, 69, 113),
+                          ),
+                        ],
                       ),
+                      Positioned(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                              right: 10,
+                              left: 10,
+                            ),
+                            // height: 1000,
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 17, 52, 81),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black,
+                                    offset: Offset(0, 5),
+                                    blurRadius: 10,
+                                    spreadRadius: 1)
+                              ],
+                            ),
+                            child: ListView.separated(
+                                itemBuilder: (context, index) {
+                                  final transaction =
+                                      foundTransactionNotifier[index];
+                                  return GestureDetector(
+                                    onLongPress: () {
+                                      log('long pressed');
+                                      
+                                    },
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                          pageBuilder: (BuildContext context,
+                                              Animation<double> animation,
+                                              Animation<double>
+                                                  secondaryAnimation) {
+                                            return const SplashScreen();
+                                          },
+                                          transitionsBuilder:
+                                              (BuildContext context,
+                                                  Animation<double> animation,
+                                                  Animation<double>
+                                                      secondaryAnimation,
+                                                  child) {
+                                            return Align(
+                                              child: SizeTransition(
+                                                sizeFactor: animation,
+                                                child: child,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: Slidable(
+                                      key: Key(transaction.id),
+                                      startActionPane: ActionPane(
+                                          motion: const ScrollMotion(),
+                                          children: [
+                                            SlidableAction(
+                                              backgroundColor: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              onPressed: (context) {
+                                                TransactionDB.instance
+                                                    .deleteTransactions(
+                                                        transaction.id);
+                                              },
+                                              icon: Icons.delete,
+                                              label: 'Delete',
+                                            )
+                                          ]),
+                                      child: TransactionBar(
+                                          date: transaction.date,
+                                          type: transaction.type,
+                                          amount: transaction.amount,
+                                          category: transaction.category),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(
+                                    height: 10,
+                                  );
+                                },
+                                itemCount: foundTransactionNotifier.length),
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                  Positioned(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          right: 10,
-                          left: 10,
-                        ),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 17, 52, 81),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(0, 5),
-                                blurRadius: 10,
-                                spreadRadius: 1)
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'lib/assets/images/emptywallet.png',
-                              scale: 6,
-                              color: Colors.white38,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            const Text(
-                              'No Transactions available',
-                              style: TextStyle(
-                                  color: Colors.white60, fontSize: 15),
-                            ),
-                          ],
-                        ),
+                )
+              : Center(
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: 100,
+                            color: const Color.fromARGB(255, 14, 69, 113),
+                          ),
+                        ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          }
-          return Stack(
-            children: [
-              Column(
-                children: [
-                  Container(
-                    height: 100,
-                    color: const Color.fromARGB(255, 14, 69, 113),
-                  ),
-                ],
-              ),
-              Positioned(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      right: 10,
-                      left: 10,
-                    ),
-                    // height: 1000,
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 17, 52, 81),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black,
-                            offset: Offset(0, 5),
-                            blurRadius: 10,
-                            spreadRadius: 1)
-                      ],
-                    ),
-                    child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          final transaction = newList[index];
-                          return GestureDetector(
-                            // onHorizontalDragStart: (details) {
-                            //   log('drag');
-                            //   TransactionDB.instance
-                            //       .deleteTransactions(transaction.id);
-                            // },
-                            onLongPress: () {
-                              log('long pressed');
-                              TransactionDB.instance
-                                  .deleteTransactions(transaction.id);
-                            },
-                            onTap: () {
-                              Navigator.of(context).push(
-                                PageRouteBuilder(
-                                  pageBuilder: (BuildContext context,
-                                      Animation<double> animation,
-                                      Animation<double> secondaryAnimation) {
-                                    return const SplashScreen();
-                                  },
-                                  transitionsBuilder: (BuildContext context,
-                                      Animation<double> animation,
-                                      Animation<double> secondaryAnimation,
-                                      child) {
-                                    return Align(
-                                      child: SizeTransition(
-                                        sizeFactor: animation,
-                                        child: child,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            child: Slidable(
-                              key: Key(transaction.id),
-                              startActionPane:
-                                  ActionPane(motion: ScrollMotion(), children: [
-                                SlidableAction(
-                                  backgroundColor: Colors.red,
-                                  borderRadius: BorderRadius.circular(30),
-                                  onPressed: (context) {
-                                    TransactionDB.instance
-                                        .deleteTransactions(transaction.id);
-                                  },
-                                  icon: Icons.delete,
-                                  label: 'Delete',
-                                )
-                              ]),
-                              child: TransactionBar(
-                                  date: transaction.date,
-                                  type: transaction.type,
-                                  amount: transaction.amount,
-                                  category: transaction.category),
+                      Positioned(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                              right: 10,
+                              left: 10,
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 10,
-                          );
-                        },
-                        itemCount: newList.length),
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 17, 52, 81),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black,
+                                    offset: Offset(0, 5),
+                                    blurRadius: 10,
+                                    spreadRadius: 1)
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'lib/assets/images/emptywallet.png',
+                                  scale: 6,
+                                  color: Colors.white38,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                const Text(
+                                  'No Transactions available',
+                                  style: TextStyle(
+                                      color: Colors.white60, fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              )
-            ],
-          );
+                );
         },
       ),
     );

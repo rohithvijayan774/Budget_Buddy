@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:money_management/functions/user_name_db.dart';
-import 'package:money_management/model/user_name_model.dart';
+import 'package:money_management/main.dart';
 import 'package:money_management/screens/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NameScreen extends StatelessWidget {
   NameScreen({super.key});
@@ -100,20 +100,13 @@ class NameScreen extends StatelessWidget {
 
   Future<void> submitButtonClicked(BuildContext context) async {
     final userName = _nameController.text.trim();
-    if (userName.isEmpty) {
+    if (userName.isNotEmpty) {
+      final sharedprefs = await SharedPreferences.getInstance();
+      await sharedprefs.setBool(SAVE_KEY_NAME, true);
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+    } else {
       return;
     }
-    final _username = UserNameModel(user: userName);
-    UserNameDB().addUserName(_username);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HomeScreen()));
-
-    // else {
-    //   Navigator.of(context).push(
-    //     MaterialPageRoute(
-    //       builder: (context) => HomeScreen(),
-    //     ),
-    //   );
-    // }
   }
 }

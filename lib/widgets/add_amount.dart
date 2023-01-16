@@ -273,7 +273,7 @@ class _AddIncomeState extends State<AddIncome> {
                   height: 30,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(

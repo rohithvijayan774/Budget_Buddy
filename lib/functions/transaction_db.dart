@@ -48,7 +48,7 @@ class TransactionDB implements TransactionDbFunction {
       allTransactions,
       (TransactionModel transaction) {
         // allTransactionList.value.add(transaction);
-        if (transaction.type == 'income') {
+        if (transaction.type == 'Income') {
           incomeNotifier.value.add(transaction);
         } else {
           expenseNotifier.value.add(transaction);
