@@ -140,26 +140,7 @@ class _AddIncomeState extends State<AddIncome> {
                 const SizedBox(
                   height: 10,
                 ),
-                // TextFormField(
-                //   textCapitalization: TextCapitalization.words,
-                //   controller: _categoryController,
-                //   decoration: const InputDecoration(
-                //     filled: true,
-                //     fillColor: Colors.white,
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.all(
-                //         Radius.circular(50),
-                //       ),
-                //     ),
-                //   ),
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'This field is required';
-                //     } else {
-                //       return null;
-                //     }
-                //   },
-                // ),
+                
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(

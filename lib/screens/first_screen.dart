@@ -163,8 +163,8 @@ class _FirstScreenState extends State<FirstScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  IncomeExpense(label: 'Income :', amount: '0.00'),
-                  IncomeExpense(label: 'Expense :', amount: '0.00'),
+                  IncomeExpense(label: 'Income :', amount: 0.00),
+                  IncomeExpense(label: 'Expense :', amount: 0.00),
                 ],
               ),
             ),

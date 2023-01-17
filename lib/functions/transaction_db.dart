@@ -67,4 +67,27 @@ class TransactionDB implements TransactionDbFunction {
     await transactionDB.delete(transactionID);
     refreshUI();
   }
+
+  List totalAllNotifier = [];
+
+  List addTotalTransaction() {
+    double? newExpenseAmount = 0;
+    double? newIncomeAmount = 0;
+    double? total = 0;
+
+    for (var i = 0; i < allTransactionList.value.length; i++) {
+      var values = allTransactionList.value[i];
+
+      if (values.type == 'Income') {
+        newIncomeAmount = newIncomeAmount! + values.amount;
+      } else {
+        newExpenseAmount = newExpenseAmount! + values.amount;
+      }
+      total = newIncomeAmount! - newExpenseAmount!;
+    }
+    totalAllNotifier.add(newIncomeAmount);
+    totalAllNotifier.add(newExpenseAmount);
+
+    return [total!, newExpenseAmount!, newIncomeAmount!];
+  }
 }

@@ -8,7 +8,7 @@ class IncomeExpense extends StatefulWidget {
     required this.amount,
   });
   final String label;
-  final String amount;
+  final double amount;
 
   @override
   State<IncomeExpense> createState() => _IncomeExpenseState();
@@ -44,7 +44,7 @@ class _IncomeExpenseState extends State<IncomeExpense> {
             height: 20,
           ),
           Text(
-            '₹${widget.amount}',
+            '₹ ${widget.amount}',
             style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
           ),
         ],
