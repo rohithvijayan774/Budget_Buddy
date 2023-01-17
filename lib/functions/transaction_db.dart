@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:money_management/model/transaction_model.dart';
@@ -8,6 +10,7 @@ abstract class TransactionDbFunction {
   Future<List<TransactionModel>> getTransactions();
   Future<void> insertTransactions(TransactionModel value);
   Future<void> deleteTransactions(String transactionID);
+  Future<void> resetAll();
 }
 
 class TransactionDB implements TransactionDbFunction {
@@ -68,6 +71,15 @@ class TransactionDB implements TransactionDbFunction {
     refreshUI();
   }
 
+    @override
+  Future<void> resetAll() async {
+    final transactionDB =
+        await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
+    transactionDB.clear();
+    refreshUI();
+    log('Reset All');
+  }
+
   List totalAllNotifier = [];
 
   List addTotalTransaction() {
@@ -90,4 +102,6 @@ class TransactionDB implements TransactionDbFunction {
 
     return [total!, newExpenseAmount!, newIncomeAmount!];
   }
+
+
 }

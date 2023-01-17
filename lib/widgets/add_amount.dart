@@ -140,7 +140,6 @@ class _AddIncomeState extends State<AddIncome> {
                 const SizedBox(
                   height: 10,
                 ),
-                
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(
@@ -322,7 +321,6 @@ class _AddIncomeState extends State<AddIncome> {
       type: type,
     );
     TransactionDB().insertTransactions(addAmount);
-
     Navigator.of(context).pop();
   }
 

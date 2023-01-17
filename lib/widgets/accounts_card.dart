@@ -2,18 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:money_management/functions/transaction_db.dart';
 
 class AccountCard extends StatefulWidget {
-  const AccountCard(
-      {super.key,
-      required this.paymentMode,
-      required this.totalAmount,
-      required this.totalIncome,
-      required this.totalExpense});
-  final String paymentMode;
-  final String totalAmount;
-  final String totalIncome;
-  final String totalExpense;
+  const AccountCard({super.key});
 
   @override
   State<AccountCard> createState() => _AccountCardState();
@@ -42,7 +34,7 @@ class _AccountCardState extends State<AccountCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.paymentMode,
+            "CASH",
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           const SizedBox(
@@ -50,7 +42,7 @@ class _AccountCardState extends State<AccountCard> {
           ),
           Center(
             child: Text(
-              widget.totalAmount,
+              '${TransactionDB.instance.addTotalTransaction()[0]}',
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
             ),
           ),
@@ -78,7 +70,7 @@ class _AccountCardState extends State<AccountCard> {
                       height: 10,
                     ),
                     Text(
-                      widget.totalIncome,
+                      '${TransactionDB.instance.addTotalTransaction()[2]}',
                       style: const TextStyle(
                           fontSize: 25, fontWeight: FontWeight.bold),
                     ),
@@ -99,7 +91,7 @@ class _AccountCardState extends State<AccountCard> {
                       height: 10,
                     ),
                     Text(
-                      widget.totalExpense,
+                      '${TransactionDB.instance.addTotalTransaction()[1]}',
                       style: const TextStyle(
                           fontSize: 25, fontWeight: FontWeight.bold),
                     ),
