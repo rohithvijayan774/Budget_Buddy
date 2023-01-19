@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:money_management/details/app_info_screen.dart';
+import 'package:money_management/details/privacy_policy_screen.dart';
+import 'package:money_management/details/terms_conditions.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/screens/name_screen.dart';
@@ -64,7 +67,10 @@ class _FirstScreenState extends State<FirstScreen> {
                 child: Text(''),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const TermsAndConditionsScreen()));
+                },
                 title: const Text(
                   'Terms & Conditions',
                   style: TextStyle(fontSize: 20),
@@ -72,7 +78,10 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicyScreen()));
+                },
                 title: const Text(
                   'Privacy Policy',
                   style: TextStyle(fontSize: 20),
@@ -80,7 +89,10 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AppInfoScreen()));
+                },
                 title: const Text(
                   'App Info',
                   style: TextStyle(fontSize: 20),

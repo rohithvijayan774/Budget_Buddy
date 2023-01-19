@@ -6,6 +6,7 @@ import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/splash_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
+import 'package:money_management/widgets/transaction_details_screen.dart';
 
 import '../model/transaction_model.dart';
 
@@ -17,6 +18,7 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
+  List<TransactionModel> searchTransactions = [];
   bool isSearching = false;
   List<TransactionModel> newTransactionList =
       TransactionDB.instance.allTransactionList.value;
@@ -29,6 +31,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   void initState() {
     TransactionDB().refreshUI();
     foundTransactionNotifier = newTransactionList;
+    searchTransactions = TransactionDB().allTransactionList.value;
     // TransactionDB().getTransactions().then((value) {
     //   print('transactions get');
     //   print(value.toString());
@@ -101,7 +104,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 style: TextStyle(fontSize: 25),
               )
             : TextFormField(
-                onChanged: (value) {},
+                onChanged: (value) {
+                  runSearch(value);
+                  log('search...');
+                },
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                     hintText: 'Search',
@@ -173,8 +179,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                       foundTransactionNotifier[index];
                                   return GestureDetector(
                                     onLongPress: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TransactionDetailsScreen(),
+                                        ),
+                                      );
                                       log('long pressed');
-                                      
                                     },
                                     onTap: () {
                                       Navigator.of(context).push(
@@ -301,5 +312,22 @@ class _TransactionScreenState extends State<TransactionScreen> {
         },
       ),
     );
+  }
+
+  void runSearch(String enteredKeyword) {
+    List<TransactionModel> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = TransactionDB().allTransactionList.value;
+    } else {
+      results = TransactionDB()
+          .allTransactionList
+          .value
+          .where((element) =>
+              element.category.toString().contains(enteredKeyword.toString()))
+          .toList();
+    }
+    setState(() {
+      searchTransactions = results;
+    });
   }
 }
