@@ -45,8 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkUserLogin() async {
     final sharedPrefs = await SharedPreferences.getInstance();
-    final userLoggenin = sharedPrefs.getBool(SAVE_KEY_NAME);
-    if (userLoggenin == null || userLoggenin == false) {
+    final userLoggenin = sharedPrefs.getString(SAVE_KEY_NAME);
+    if (userLoggenin == null || userLoggenin.isEmpty) {
       gotoUserName();
     } else {
       Navigator.of(context)

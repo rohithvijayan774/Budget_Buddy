@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:money_management/functions/transaction_db.dart';
+import 'package:money_management/screens/search_transactions.dart';
 import 'package:money_management/screens/splash_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
@@ -18,7 +19,7 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
-  List<TransactionModel> searchTransactions = [];
+  // List<TransactionModel> searchTransactions = [];
   bool isSearching = false;
   List<TransactionModel> newTransactionList =
       TransactionDB.instance.allTransactionList.value;
@@ -31,11 +32,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   void initState() {
     TransactionDB().refreshUI();
     foundTransactionNotifier = newTransactionList;
-    searchTransactions = TransactionDB().allTransactionList.value;
-    // TransactionDB().getTransactions().then((value) {
-    //   print('transactions get');
-    //   print(value.toString());
-    // });
+    // searchTransactions = TransactionDB().allTransactionList.value;
     super.initState();
   }
 
@@ -106,7 +103,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
             : TextFormField(
                 onChanged: (value) {
                   runSearch(value);
-                  log('search...');
                 },
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
@@ -114,24 +110,33 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     hintStyle: TextStyle(color: Colors.grey)),
               ),
         actions: [
-          isSearching
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      this.isSearching = false;
-                    });
-                  },
-                  icon: const Icon(Icons.close),
-                )
-              : IconButton(
-                  onPressed: () {
-                    setState(() {
-                      this.isSearching = true;
-                    });
-                  },
-                  icon: const Icon(Icons.search),
-                )
+          IconButton(
+              onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SearchTransactions(),
+                    ),
+                  ),
+              icon: const Icon(Icons.search))
         ],
+        // actions: [
+        //   isSearching
+        //       ? IconButton(
+        //           onPressed: () {
+        //             setState(() {
+        //               this.isSearching = false;
+        //             });
+        //           },
+        //           icon: const Icon(Icons.close),
+        //         )
+        //       : IconButton(
+        //           onPressed: () {
+        //             setState(() {
+        //               this.isSearching = true;
+        //             });
+        //           },
+        //           icon: const Icon(Icons.search),
+        //         )
+        // ],
       ),
       body: ValueListenableBuilder(
         valueListenable: TransactionDB().allTransactionList,
@@ -327,7 +332,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
           .toList();
     }
     setState(() {
-      searchTransactions = results;
+      foundTransactionNotifier = results;
     });
   }
 }

@@ -119,7 +119,7 @@ class _FirstScreenState extends State<FirstScreen> {
               (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
             return Column(
               children: [
-                // UserNameBar(nameUser:),
+               const UserNameBar(),
                 Container(
                   padding: const EdgeInsets.only(
                     left: 17,
@@ -139,7 +139,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ],
                   ),
                   height: 70,
-                  width: 500,
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -190,7 +190,8 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.only(top: 35),
+                    padding:
+                        const EdgeInsets.only(top: 35, left: 10, right: 10),
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
@@ -285,7 +286,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       },
                     ),
                   ),
-                )
+                ),
               ],
             );
           },

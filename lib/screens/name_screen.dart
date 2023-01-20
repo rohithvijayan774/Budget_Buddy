@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_management/main.dart';
@@ -6,14 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NameScreen extends StatelessWidget {
   NameScreen({super.key});
-  final _nameController = TextEditingController();
-  final _nameFormKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final nameFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Container(
-          height: 350,
+          height: 400,
           width: 350,
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 202, 200, 200),
@@ -53,10 +55,10 @@ class NameScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Form(
-                    key: _nameFormKey,
+                    key: nameFormKey,
                     child: TextFormField(
                       textCapitalization: TextCapitalization.words,
-                      controller: _nameController,
+                      controller: nameController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius:
@@ -87,10 +89,16 @@ class NameScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   submitButtonClicked(context);
-                  if (_nameFormKey.currentState!.validate()) {}
+                  if (nameFormKey.currentState!.validate()) {}
                 },
                 child: const Text('SUBMIT'),
               ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (ctx) => const HomeScreen()));
+                  },
+                  child: const Text('Continue as guest'))
             ],
           ),
         ),
@@ -99,10 +107,13 @@ class NameScreen extends StatelessWidget {
   }
 
   Future<void> submitButtonClicked(BuildContext context) async {
-    final userName = _nameController.text.trim();
+    final userName = nameController.text.toString();
     if (userName.isNotEmpty) {
       final sharedprefs = await SharedPreferences.getInstance();
-      await sharedprefs.setBool(SAVE_KEY_NAME, true);
+      await sharedprefs.setString(SAVE_KEY_NAME, userName);
+
+      log("${sharedprefs.getString(SAVE_KEY_NAME)}");
+
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
     } else {

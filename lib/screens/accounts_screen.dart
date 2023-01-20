@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
+import 'package:money_management/screens/search_transactions.dart';
 
 import 'package:money_management/screens/splash_screen.dart';
 import 'package:money_management/widgets/accounts_card.dart';
@@ -104,7 +105,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
               const SizedBox(
                 height: 40,
               ),
-              
             ],
           ),
         ],
