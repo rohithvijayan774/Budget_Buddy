@@ -15,7 +15,7 @@ class StatisticsScreen extends StatefulWidget {
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
   List<TransactionModel> newTransactionList =
-      TransactionDB.instance.allTransactionList.value;
+      TransactionDB.instance.allCashTransactionList.value;
   List<TransactionModel> chartTransactionNotifier = [];
 
   int dropdownValue = 0;
@@ -41,7 +41,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 onTap: () {
                   setState(() {
                     chartTransactionNotifier =
-                        TransactionDB.instance.allTransactionList.value;
+                        TransactionDB.instance.allCashTransactionList.value;
                   });
                 },
               ),
@@ -51,7 +51,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 onTap: () {
                   setState(() {
                     chartTransactionNotifier =
-                        TransactionDB.instance.incomeNotifier.value;
+                        TransactionDB.instance.cashIncomeNotifier.value;
                   });
                 },
               ),
@@ -61,7 +61,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 onTap: () {
                   setState(() {
                     chartTransactionNotifier =
-                        TransactionDB.instance.expenseNotifier.value;
+                        TransactionDB.instance.cashExpenseNotifier.value;
                   });
                 },
               ),
@@ -78,7 +78,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         children: [
           dropdownValue != 0
               ? ValueListenableBuilder(
-                  valueListenable: TransactionDB.instance.allTransactionList,
+                  valueListenable:
+                      TransactionDB.instance.allCashTransactionList,
                   builder: (context, value, child) {
                     return chartTransactionNotifier.isNotEmpty
                         ? Column(
@@ -89,7 +90,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 child: Text(
                                   chartTransactionNotifier ==
                                           TransactionDB
-                                              .instance.incomeNotifier.value
+                                              .instance.cashIncomeNotifier.value
                                       ? 'Income Statistics'
                                       : 'Expense Statistics',
                                   style: const TextStyle(
@@ -149,7 +150,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           );
                   },
                 )
-              : TransactionDB.instance.allTransactionList.value.isNotEmpty
+              : TransactionDB.instance.allCashTransactionList.value.isNotEmpty
                   ? Column(
                       children: [
                         const Padding(

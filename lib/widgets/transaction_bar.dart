@@ -27,7 +27,7 @@ class _TransactionBarState extends State<TransactionBar> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: TransactionDB().allTransactionList,
+      valueListenable: TransactionDB().allCashTransactionList,
       builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
         return Container(
           padding: const EdgeInsets.all(15),

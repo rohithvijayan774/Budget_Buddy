@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/search_transactions.dart';
 import 'package:money_management/screens/splash_screen.dart';
+import 'package:money_management/widgets/add_amount.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
 import 'package:money_management/widgets/transaction_details_screen.dart';
@@ -22,7 +23,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   // List<TransactionModel> searchTransactions = [];
   bool isSearching = false;
   List<TransactionModel> newTransactionList =
-      TransactionDB.instance.allTransactionList.value;
+      TransactionDB.instance.allCashTransactionList.value;
   List<TransactionModel> foundTransactionNotifier = [];
 
   int dropdownValue = 1;
@@ -40,6 +41,34 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     TransactionDB.instance.refreshUI();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        elevation: 5,
+        foregroundColor: const Color.fromARGB(255, 14, 69, 113),
+        backgroundColor: Colors.white,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation,
+                  Animation<double> secondaryAnimation) {
+                return const AddAmount();
+              },
+              transitionsBuilder: (BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                  Widget child) {
+                return Align(
+                  child: SizeTransition(
+                    sizeFactor: animation,
+                    child: child,
+                  ),
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 400),
+            ),
+          );
+        },
+      ),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(10),
@@ -51,7 +80,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   onTap: () {
                     setState(() {
                       foundTransactionNotifier =
-                          TransactionDB.instance.allTransactionList.value;
+                          TransactionDB.instance.allCashTransactionList.value;
                       dropdownValueforFilterSorting = 0;
                     });
                   },
@@ -62,7 +91,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   onTap: () {
                     setState(() {
                       foundTransactionNotifier =
-                          TransactionDB.instance.incomeNotifier.value;
+                          TransactionDB.instance.cashIncomeNotifier.value;
                       dropdownValueforFilterSorting = 0;
                     });
                   },
@@ -73,7 +102,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   onTap: () {
                     setState(() {
                       foundTransactionNotifier =
-                          TransactionDB.instance.expenseNotifier.value;
+                          TransactionDB.instance.cashExpenseNotifier.value;
                       dropdownValueforFilterSorting = 0;
                     });
                   },
@@ -139,7 +168,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
         // ],
       ),
       body: ValueListenableBuilder(
-        valueListenable: TransactionDB().allTransactionList,
+        valueListenable: TransactionDB().allCashTransactionList,
         builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
           return foundTransactionNotifier.isNotEmpty
               ? MediaQuery.removePadding(
@@ -325,10 +354,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
   void runSearch(String enteredKeyword) {
     List<TransactionModel> results = [];
     if (enteredKeyword.isEmpty) {
-      results = TransactionDB().allTransactionList.value;
+      results = TransactionDB().allCashTransactionList.value;
     } else {
       results = TransactionDB()
-          .allTransactionList
+          .allCashTransactionList
           .value
           .where((element) =>
               element.category.toString().contains(enteredKeyword.toString()))

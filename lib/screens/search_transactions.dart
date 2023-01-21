@@ -20,17 +20,17 @@ class _SearchTransactionsState extends State<SearchTransactions> {
   List<TransactionModel> foundTransactions = [];
   @override
   void initState() {
-    foundTransactions = TransactionDB().allTransactionList.value;
+    foundTransactions = TransactionDB().allCashTransactionList.value;
     super.initState();
   }
 
   void runFilter(String enteredKeyword) {
     List<TransactionModel> results = [];
     if (enteredKeyword.isEmpty) {
-      results = TransactionDB().allTransactionList.value;
+      results = TransactionDB().allCashTransactionList.value;
     } else {
       results = TransactionDB()
-          .allTransactionList
+          .allCashTransactionList
           .value
           .where((element) => element.category
               .toLowerCase()

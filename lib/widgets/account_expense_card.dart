@@ -5,18 +5,18 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 
-class AccountCard extends StatefulWidget {
-  const AccountCard({super.key});
+class AccountExpenseCard extends StatefulWidget {
+  const AccountExpenseCard({super.key});
 
   @override
-  State<AccountCard> createState() => _AccountCardState();
+  State<AccountExpenseCard> createState() => _AccountExpenseCardState();
 }
 
-class _AccountCardState extends State<AccountCard> {
+class _AccountExpenseCardState extends State<AccountExpenseCard> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: TransactionDB().allTransactionList,
+      valueListenable: TransactionDB().allBankTransactionList,
       builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
         return Container(
           padding: const EdgeInsets.all(20),
@@ -38,7 +38,7 @@ class _AccountCardState extends State<AccountCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "CASH",
+                "BANK",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               const SizedBox(
@@ -46,7 +46,7 @@ class _AccountCardState extends State<AccountCard> {
               ),
               Center(
                 child: Text(
-                  '${TransactionDB.instance.addTotalTransaction()[0]}',
+                  '${TransactionDB.instance.allBankTransactionList}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 35),
                 ),
@@ -75,7 +75,7 @@ class _AccountCardState extends State<AccountCard> {
                           height: 10,
                         ),
                         Text(
-                          '${TransactionDB.instance.addTotalTransaction()[2]}',
+                          '${TransactionDB.instance.allBankTransactionList}',
                           style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
@@ -96,7 +96,7 @@ class _AccountCardState extends State<AccountCard> {
                           height: 10,
                         ),
                         Text(
-                          '${TransactionDB.instance.addTotalTransaction()[1]}',
+                          '${TransactionDB.instance.allBankTransactionList}',
                           style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),

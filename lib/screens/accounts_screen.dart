@@ -4,7 +4,8 @@ import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/screens/search_transactions.dart';
 
 import 'package:money_management/screens/splash_screen.dart';
-import 'package:money_management/widgets/accounts_card.dart';
+import 'package:money_management/widgets/account_expense_card.dart';
+import 'package:money_management/widgets/accounts_income_card.dart';
 import 'package:money_management/widgets/add_amount.dart';
 
 class AccountsScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation,
                   Animation<double> secondaryAnimation) {
-                return const AddIncome();
+                return const AddAmount();
               },
               transitionsBuilder: (BuildContext context,
                   Animation<double> animation,
@@ -61,7 +62,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         ),
       ),
       body: ValueListenableBuilder(
-        valueListenable: TransactionDB().allTransactionList,
+        valueListenable: TransactionDB().allCashTransactionList,
         builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
           return ListView(
             children: [
@@ -104,8 +105,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       ],
                     ),
                   ),
-                  const AccountCard(),
-                  const AccountCard(),
+                  const AccountIncomeCard(),
+                  const AccountExpenseCard(),
                   const SizedBox(
                     height: 40,
                   ),

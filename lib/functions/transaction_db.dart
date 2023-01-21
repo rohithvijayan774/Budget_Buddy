@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:money_management/model/transaction_model.dart';
 
@@ -8,7 +9,8 @@ const TRANSACTION_DB_NAME = 'transaction-database';
 
 abstract class TransactionDbFunction {
   Future<List<TransactionModel>> getTransactions();
-  Future<void> insertTransactions(TransactionModel value);
+  Future<void> insertCashTransactions(TransactionModel value);
+  Future<void> insertBankTransactions(TransactionModel value);
   Future<void> deleteTransactions(String transactionID);
   Future<void> resetAll();
 }
@@ -20,15 +22,29 @@ class TransactionDB implements TransactionDbFunction {
     return instance;
   }
 
-  ValueNotifier<List<TransactionModel>> allTransactionList = ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> incomeNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> expenseNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> allCashTransactionList =
+      ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> allBankTransactionList =
+      ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> cashIncomeNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> cashExpenseNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> bankExpenseNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModel>> bankIncomeNotifier = ValueNotifier([]);
 
   @override
-  Future<void> insertTransactions(TransactionModel value) async {
+  Future<void> insertCashTransactions(TransactionModel value) async {
     final transactionDB =
         await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
     await transactionDB.put(value.id, value);
+
+    refreshUI();
+  }
+
+  @override
+  Future<void> insertBankTransactions(TransactionModel value) async {
+    final TransactionDB =
+        await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
+    await TransactionDB.put(value.id, value);
 
     refreshUI();
   }
@@ -43,24 +59,24 @@ class TransactionDB implements TransactionDbFunction {
   Future<void> refreshUI() async {
     final allTransactions = await getTransactions();
     allTransactions.sort((first, second) => second.date.compareTo(first.date));
-    allTransactionList.value.clear();
-    allTransactionList.value.addAll(allTransactions);
-    incomeNotifier.value.clear();
-    expenseNotifier.value.clear();
+    allCashTransactionList.value.clear();
+    allCashTransactionList.value.addAll(allTransactions);
+    cashIncomeNotifier.value.clear();
+    cashExpenseNotifier.value.clear();
     await Future.forEach(
       allTransactions,
       (TransactionModel transaction) {
         // allTransactionList.value.add(transaction);
         if (transaction.type == 'Income') {
-          incomeNotifier.value.add(transaction);
+          cashIncomeNotifier.value.add(transaction);
         } else {
-          expenseNotifier.value.add(transaction);
+          cashExpenseNotifier.value.add(transaction);
         }
       },
     );
-    allTransactionList.notifyListeners();
-    incomeNotifier.notifyListeners();
-    expenseNotifier.notifyListeners();
+    allCashTransactionList.notifyListeners();
+    cashIncomeNotifier.notifyListeners();
+    cashExpenseNotifier.notifyListeners();
   }
 
   @override
@@ -87,8 +103,8 @@ class TransactionDB implements TransactionDbFunction {
     double? newIncomeAmount = 0;
     double? total = 0;
 
-    for (var i = 0; i < allTransactionList.value.length; i++) {
-      var values = allTransactionList.value[i];
+    for (var i = 0; i < allCashTransactionList.value.length; i++) {
+      var values = allCashTransactionList.value[i];
 
       if (values.type == 'Income') {
         newIncomeAmount = newIncomeAmount! + values.amount;

@@ -13,11 +13,10 @@ class IncomeExpenseHomePage extends StatefulWidget {
 }
 
 class _IncomeExpenseHomePageState extends State<IncomeExpenseHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: TransactionDB().allTransactionList,
+      valueListenable: TransactionDB().allCashTransactionList,
       builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

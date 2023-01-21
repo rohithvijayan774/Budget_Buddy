@@ -36,11 +36,13 @@ class MoneyManagerBottomNavigation extends StatelessWidget {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.currency_rupee_outlined),
                     label: 'Transactions'),
+                // BottomNavigationBarItem(
+                //     icon: Icon(Icons.account_balance_wallet_outlined),
+                //     label: 'Accounts'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.account_balance_wallet_outlined),
-                    label: 'Accounts'),
+                    icon: Icon(Icons.bar_chart), label: 'Statistics'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.auto_graph_sharp), label: 'Statistics'),
+                    icon: Icon(Icons.settings), label: 'Settings'),
               ],
             ),
           ),

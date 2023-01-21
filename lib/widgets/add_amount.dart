@@ -1,19 +1,18 @@
-
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_btn/loading_btn.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 
-
-class AddIncome extends StatefulWidget {
-  const AddIncome({super.key});
+class AddAmount extends StatefulWidget {
+  const AddAmount({super.key});
 
   @override
-  State<AddIncome> createState() => _AddIncomeState();
+  State<AddAmount> createState() => _AddAmountState();
 }
 
-class _AddIncomeState extends State<AddIncome> {
+class _AddAmountState extends State<AddAmount> {
   final _amountController = TextEditingController();
   final _dateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -60,6 +59,7 @@ class _AddIncomeState extends State<AddIncome> {
                   keyboardType: const TextInputType.numberWithOptions(),
                   controller: _amountController,
                   decoration: const InputDecoration(
+                    hintText: 'Amount',
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -89,6 +89,7 @@ class _AddIncomeState extends State<AddIncome> {
                 TextFormField(
                   controller: _dateController,
                   decoration: const InputDecoration(
+                    hintText: 'Pick a date',
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -248,48 +249,29 @@ class _AddIncomeState extends State<AddIncome> {
                   },
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: const StadiumBorder(),
-                        textStyle: const TextStyle(fontSize: 18),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          toCashButtonClicked();
-                        }
-                      },
-                      child: const Text(
-                        'TO CASH',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: const StadiumBorder(),
-                        textStyle: const TextStyle(fontSize: 18),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () {
-                        toBankButtonClicked();
-                        if (_formKey.currentState!.validate()) {}
-                      },
-                      child: const Text(
-                        'TO BANK',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ],
-                )
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    textStyle: const TextStyle(fontSize: 18),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 30),
+                    backgroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      toCashButtonClicked();
+                    }
+                  },
+                  child: const Text(
+                    'ADD AMOUNT',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
@@ -318,18 +300,33 @@ class _AddIncomeState extends State<AddIncome> {
       category: category,
       type: type,
     );
-    TransactionDB().insertTransactions(addAmount);
+    TransactionDB().insertCashTransactions(addAmount);
     Navigator.of(context).pop();
     setState(() {});
   }
 
   Future<void> toBankButtonClicked() async {
-    final income = _amountController.text.trim();
+    final amount = _amountController.text.trim();
     final date = _dateController.text.trim();
     final category = _categoryController;
     final type = _typeController;
-    if (income.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
+
+    if (amount.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
       return;
     }
+    final parsedAmount = double.tryParse(amount);
+    if (parsedAmount == null) {
+      return;
+    }
+    final addAmount = TransactionModel(
+      id: DateTime.now().toString(),
+      amount: parsedAmount,
+      date: date,
+      category: category,
+      type: type,
+    );
+    TransactionDB().insertBankTransactions(addAmount);
+    Navigator.of(context).pop();
+    setState(() {});
   }
 }

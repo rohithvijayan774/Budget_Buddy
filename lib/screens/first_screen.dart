@@ -109,7 +109,7 @@ class _FirstScreenState extends State<FirstScreen> {
         ),
       ),
       body: ValueListenableBuilder(
-        valueListenable: TransactionDB().allTransactionList,
+        valueListenable: TransactionDB().allCashTransactionList,
         builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
           return Column(
             children: [
@@ -205,7 +205,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ],
                   ),
                   child: ValueListenableBuilder(
-                    valueListenable: TransactionDB().allTransactionList,
+                    valueListenable: TransactionDB().allCashTransactionList,
                     builder: (BuildContext ctx,
                         List<TransactionModel> newTransactionList, Widget? _) {
                       if (newTransactionList.isEmpty) {

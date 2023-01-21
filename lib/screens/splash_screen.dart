@@ -29,9 +29,25 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(
-          'lib/assets/icons/wallet.png',
-          scale: 2,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'lib/assets/icons/wallet.png',
+              scale: 2,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            ),
+            const Text(
+              'Loading...',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
         ),
       ),
     );
