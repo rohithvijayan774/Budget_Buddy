@@ -71,7 +71,7 @@ class TransactionDB implements TransactionDbFunction {
     refreshUI();
   }
 
-    @override
+  @override
   Future<void> resetAll() async {
     final transactionDB =
         await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
@@ -102,6 +102,4 @@ class TransactionDB implements TransactionDbFunction {
 
     return [total!, newExpenseAmount!, newIncomeAmount!];
   }
-
-
 }

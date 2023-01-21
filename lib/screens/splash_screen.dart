@@ -14,6 +14,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final String message = DateTime.now().hour < 12
+      ? "Good Morning"
+      : DateTime.now().hour < 15
+          ? "Good Afternoon"
+          : "Good Evening";
   @override
   void initState() {
     checkUserLogin();

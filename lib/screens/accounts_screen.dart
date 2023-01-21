@@ -17,12 +17,13 @@ class AccountsScreen extends StatefulWidget {
 class _AccountsScreenState extends State<AccountsScreen> {
   @override
   void initState() {
-    TransactionDB().refreshUI();
+    TransactionDB.instance.refreshUI();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    TransactionDB.instance.refreshUI();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         elevation: 5,
@@ -59,55 +60,60 @@ class _AccountsScreenState extends State<AccountsScreen> {
           style: TextStyle(fontSize: 25),
         ),
       ),
-      body: ListView(
-        children: [
-          Column(
+      body: ValueListenableBuilder(
+        valueListenable: TransactionDB().allTransactionList,
+        builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
+          return ListView(
             children: [
-              Container(
-                margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
-                padding: const EdgeInsets.all(10),
-                height: 100,
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 14, 69, 113),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30),
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                    padding: const EdgeInsets.all(10),
+                    height: 100,
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 14, 69, 113),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 5),
+                            blurRadius: 10,
+                            spreadRadius: 1)
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text(
+                          'Balance :',
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        Text(
+                          '₹ ${TransactionDB.instance.addTotalTransaction()[0]}',
+                          style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0, 5),
-                        blurRadius: 10,
-                        spreadRadius: 1)
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Text(
-                      'Balance :',
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    Text(
-                      '₹ ${TransactionDB.instance.addTotalTransaction()[0]}',
-                      style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-              const AccountCard(),
-              const AccountCard(),
-              const SizedBox(
-                height: 40,
+                  const AccountCard(),
+                  const AccountCard(),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }

@@ -227,10 +227,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               onPressed: (context) {
-                                                TransactionDB.instance
-                                                    .deleteTransactions(
-                                                        transaction.id);
+                                                deleteDialogue(transaction.id);
                                               },
+                                              // onPressed: (context) {
+                                              //   TransactionDB.instance
+                                              //       .deleteTransactions(
+                                              //           transaction.id);
+                                              // },
                                               icon: Icons.delete,
                                               label: 'Delete',
                                             )
@@ -334,5 +337,43 @@ class _TransactionScreenState extends State<TransactionScreen> {
     setState(() {
       foundTransactionNotifier = results;
     });
+  }
+
+  deleteDialogue(value) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: Colors.grey.shade200,
+          title: const Text(
+            'Do you want to delete?',
+            style: TextStyle(color: Colors.red),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'No',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                TransactionDB.instance.deleteTransactions(value);
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

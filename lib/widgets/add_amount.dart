@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 
-import 'category_list.dart';
 
 class AddIncome extends StatefulWidget {
   const AddIncome({super.key});
@@ -322,6 +320,7 @@ class _AddIncomeState extends State<AddIncome> {
     );
     TransactionDB().insertTransactions(addAmount);
     Navigator.of(context).pop();
+    setState(() {});
   }
 
   Future<void> toBankButtonClicked() async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 import 'package:money_management/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,7 @@ class _UserNameBarState extends State<UserNameBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(right: 13),
+      padding: const EdgeInsets.only(left: 10, right: 15),
       color: const Color.fromARGB(255, 14, 69, 113),
       height: 50,
       width: MediaQuery.of(context).size.width,
@@ -31,22 +32,34 @@ class _UserNameBarState extends State<UserNameBar> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(
-                Icons.person_outline_outlined,
-                size: 40,
-                color: Colors.white,
-              ),
-              const SizedBox(
-                width: 10,
+              Row(
+                children: [
+                  const Icon(
+                    Icons.person_outline_outlined,
+                    size: 40,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    nameValue,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
               Text(
-                nameValue,
-                style: const TextStyle(
+                dateTime(),
+                style:const TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              )
             ],
           )
         ],
@@ -62,5 +75,12 @@ class _UserNameBarState extends State<UserNameBar> {
     nameValue = getName != null ? getName : "Guest";
 
     setState(() {});
+  }
+
+  String dateTime() {
+    final dates = DateTime.now();
+    final dateFormat = DateFormat.MMMd().format(dates);
+    final splitDate = dateFormat.split(' ');
+    return '${splitDate.last} / ${splitDate.first}';
   }
 }
