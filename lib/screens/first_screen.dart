@@ -46,68 +46,6 @@ class _FirstScreenState extends State<FirstScreen> {
           // style: TextStyle(fontSize: 25),
         ),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              margin: EdgeInsets.only(top: 30),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image:
-                          AssetImage('lib/assets/images/unknown_person_3.png'))
-                  // color: Color.fromARGB(255, 14, 69, 113),
-                  ),
-              child: Text(''),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const TermsAndConditionsScreen()));
-              },
-              title: const Text(
-                'Terms & Conditions',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const PrivacyPolicyScreen()));
-              },
-              title: const Text(
-                'Privacy Policy',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AppInfoScreen()));
-              },
-              title: const Text(
-                'App Info',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                resetApp(context);
-
-                TransactionDB.instance.refreshUI();
-              },
-              title: const Text(
-                'Reset App',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
-      ),
       body: ValueListenableBuilder(
         valueListenable: TransactionDB().allCashTransactionList,
         builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
@@ -260,11 +198,6 @@ class _FirstScreenState extends State<FirstScreen> {
                                       onPressed: (context) {
                                         deleteDialogue(transaction.id);
                                       },
-                                      // onPressed: (context) {
-                                      //   TransactionDB.instance
-                                      //       .deleteTransactions(
-                                      //           transaction.id);
-                                      // },
                                       icon: Icons.delete,
                                       label: 'Delete',
                                     )

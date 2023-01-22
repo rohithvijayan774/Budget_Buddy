@@ -55,7 +55,7 @@ class _UserNameBarState extends State<UserNameBar> {
               ),
               Text(
                 dateTime(),
-                style:const TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 15),

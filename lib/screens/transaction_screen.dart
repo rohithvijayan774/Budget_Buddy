@@ -6,6 +6,7 @@ import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/search_transactions.dart';
 import 'package:money_management/screens/splash_screen.dart';
 import 'package:money_management/widgets/add_amount.dart';
+import 'package:money_management/widgets/home_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
 import 'package:money_management/widgets/transaction_details_screen.dart';
@@ -18,6 +19,8 @@ class TransactionScreen extends StatefulWidget {
   @override
   State<TransactionScreen> createState() => _TransactionScreenState();
 }
+
+ValueNotifier<List<TransactionModel>> dateRangeList = ValueNotifier([]);
 
 class _TransactionScreenState extends State<TransactionScreen> {
   // List<TransactionModel> searchTransactions = [];
@@ -405,4 +408,28 @@ class _TransactionScreenState extends State<TransactionScreen> {
       },
     );
   }
+
+  // Future<void> dateRange() async {
+  //   dateRangeList.value.clear();
+  //   var daterange = DateTimeRange(
+  //     start: DateTime(
+  //         DateTime.now().year, DateTime.now().month, DateTime.now().day - 6),
+  //     end: DateTime(
+  //         DateTime.now().year, DateTime.now().month, DateTime.now().day),
+  //   );
+  //   DateTimeRange? picked = await showDateRangePicker(
+  //       context: navigatorKey.currentContext!,
+  //       firstDate: DateTime(DateTime.now().year - 1),
+  //       lastDate: DateTime.now(),
+  //       initialDateRange: daterange);
+  //   if (picked != null) {
+  //     final allTrans = await TransactionDB.instance.getTransactions();
+
+  //     await Future.forEach(allTrans, (TransactionModel transaction) {
+  //       if (transaction.date.is()) {
+
+  //       }
+  //     })
+  //   }
+  // }
 }

@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_management/main.dart';
-import 'package:money_management/screens/home_screen.dart';
+import 'package:money_management/screens/first_screen.dart';
+import 'package:money_management/widgets/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NameScreen extends StatelessWidget {
   NameScreen({super.key});
+  final guestUser = 'Guest';
   final nameController = TextEditingController();
   final nameFormKey = GlobalKey<FormState>();
   @override
@@ -95,8 +97,7 @@ class NameScreen extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (ctx) => const HomeScreen()));
+                    guestButtonClicked(context);
                   },
                   child: const Text('Continue as guest'))
             ],
@@ -114,10 +115,21 @@ class NameScreen extends StatelessWidget {
 
       log("${sharedprefs.getString(SAVE_KEY_NAME)}");
 
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => const HomeScreen()));
     } else {
       return;
     }
+  }
+
+  Future<void> guestButtonClicked(BuildContext context) async {
+    final guest = guestUser.toString();
+    final sharedPref = await SharedPreferences.getInstance();
+    await sharedPref.setString(SAVE_KEY_NAME, guest);
+
+    log("${sharedPref.getString(SAVE_KEY_NAME)}");
+
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const HomeScreen()));
   }
 }

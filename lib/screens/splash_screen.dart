@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:money_management/main.dart';
-import 'package:money_management/screens/home_screen.dart';
 import 'package:money_management/screens/name_screen.dart';
+import 'package:money_management/widgets/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -70,8 +70,8 @@ class _SplashScreenState extends State<SplashScreen> {
     if (userLoggenin == null || userLoggenin.isEmpty) {
       gotoUserName();
     } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx1) => HomeScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx1) => const HomeScreen()));
     }
   }
 }
