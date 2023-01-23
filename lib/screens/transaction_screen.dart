@@ -215,15 +215,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                   final transaction =
                                       foundTransactionNotifier[index];
                                   return GestureDetector(
-                                    onLongPress: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const TransactionDetailsScreen(),
-                                        ),
-                                      );
-                                      log('long pressed');
-                                    },
                                     onTap: () {
                                       Navigator.of(context).push(
                                         PageRouteBuilder(
@@ -231,7 +222,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                               Animation<double> animation,
                                               Animation<double>
                                                   secondaryAnimation) {
-                                            return const SplashScreen();
+                                            return TransactionDetailsScreen(
+                                                date: transaction.date,
+                                                type: transaction.type,
+                                                amount: transaction.amount,
+                                                category: transaction.category);
                                           },
                                           transitionsBuilder:
                                               (BuildContext context,

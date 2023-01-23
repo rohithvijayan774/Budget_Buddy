@@ -102,7 +102,11 @@ class _SearchTransactionsState extends State<SearchTransactions> {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const TransactionDetailsScreen(),
+                                            TransactionDetailsScreen(
+                                        date: transaction.date,
+                                        type: transaction.type,
+                                        amount: transaction.amount,
+                                        category: transaction.category),
                                       ),
                                     );
                                     log('long pressed');

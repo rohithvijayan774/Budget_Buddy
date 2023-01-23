@@ -14,6 +14,7 @@ import 'package:money_management/screens/splash_screen.dart';
 import 'package:money_management/screens/transaction_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
+import 'package:money_management/widgets/transaction_details_screen.dart';
 import 'package:money_management/widgets/user_name_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -160,18 +161,17 @@ class _FirstScreenState extends State<FirstScreen> {
                         itemBuilder: (context, index) {
                           final transaction = newTransactionList[index];
                           return GestureDetector(
-                            onLongPress: () {
-                              log('long pressed');
-                              TransactionDB.instance
-                                  .deleteTransactions(transaction.id);
-                            },
                             onTap: () {
                               Navigator.of(context).push(
                                 PageRouteBuilder(
                                   pageBuilder: (BuildContext context,
                                       Animation<double> animation,
                                       Animation<double> secondaryAnimation) {
-                                    return const SplashScreen();
+                                    return TransactionDetailsScreen(
+                                        date: transaction.date,
+                                        type: transaction.type,
+                                        amount: transaction.amount,
+                                        category: transaction.category);
                                   },
                                   transitionsBuilder: (BuildContext context,
                                       Animation<double> animation,
