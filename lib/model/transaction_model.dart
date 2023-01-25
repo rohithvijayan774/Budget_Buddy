@@ -8,7 +8,7 @@ class TransactionModel {
   @HiveField(1)
   final double amount;
   @HiveField(2)
-  final String date;
+  final DateTime date;
   @HiveField(3)
   final String category;
   @HiveField(4)

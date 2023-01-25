@@ -9,7 +9,7 @@ class TransactionDetailsScreen extends StatefulWidget {
       required this.type,
       required this.amount,
       required this.category});
-  final String date;
+  final DateTime date;
   final String type;
   final double amount;
   final String category;

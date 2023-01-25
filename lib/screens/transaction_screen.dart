@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/search_transactions.dart';
-import 'package:money_management/screens/splash_screen.dart';
 import 'package:money_management/widgets/add_amount.dart';
 import 'package:money_management/widgets/home_screen.dart';
 
@@ -182,14 +180,34 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       Column(
                         children: [
                           Container(
-                            height: 100,
-                            color: const Color.fromARGB(255, 14, 69, 113),
-                          ),
+                              height: 100,
+                              color: const Color.fromARGB(255, 14, 69, 113),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      dropdownValue = 1;
+                                      dropdownValueforFilterSorting = 0;
+                                      await dateRange();
+                                      setState(() {
+                                        if (dateRangeList.value.isNotEmpty) {
+                                          foundTransactionNotifier =
+                                              dateRangeList.value;
+                                        } else {
+                                          return;
+                                        }
+                                      });
+                                    },
+                                    child: const Text('Custom Date'),
+                                  ),
+                                ],
+                              )),
                         ],
                       ),
                       Positioned(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 50),
                           child: Container(
                             padding: const EdgeInsets.only(
                               top: 10,
@@ -404,27 +422,44 @@ class _TransactionScreenState extends State<TransactionScreen> {
     );
   }
 
-  // Future<void> dateRange() async {
-  //   dateRangeList.value.clear();
-  //   var daterange = DateTimeRange(
-  //     start: DateTime(
-  //         DateTime.now().year, DateTime.now().month, DateTime.now().day - 6),
-  //     end: DateTime(
-  //         DateTime.now().year, DateTime.now().month, DateTime.now().day),
-  //   );
-  //   DateTimeRange? picked = await showDateRangePicker(
-  //       context: navigatorKey.currentContext!,
-  //       firstDate: DateTime(DateTime.now().year - 1),
-  //       lastDate: DateTime.now(),
-  //       initialDateRange: daterange);
-  //   if (picked != null) {
-  //     final allTrans = await TransactionDB.instance.getTransactions();
+  String parsedDate(DateTime dates) {
+    final date = DateFormat.yMMMd().format(dates);
+    return date;
+  }
 
-  //     await Future.forEach(allTrans, (TransactionModel transaction) {
-  //       if (transaction.date.is()) {
+  Future<void> dateRange() async {
+    dateRangeList.value.clear();
+    var daterange = DateTimeRange(
+      start: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day - 6),
+      end: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day),
+    );
+    DateTimeRange? picked = await showDateRangePicker(
+        context: navigatorKey.currentContext!,
+        firstDate: DateTime(DateTime.now().year - 1),
+        lastDate: DateTime.now(),
+        initialDateRange: daterange);
+    if (picked != null) {
+      final allTrans = await TransactionDB.instance.getTransactions();
 
-  //       }
-  //     })
-  //   }
-  // }
+      await Future.forEach(allTrans, (TransactionModel transaction) {
+        if (transaction.date.isAfter(
+              picked.start.subtract(
+                const Duration(days: 1),
+              ),
+            ) &&
+            transaction.date.isBefore(
+              picked.end.add(
+                const Duration(days: 1),
+              ),
+            )) {
+          dateRangeList.value.add(transaction);
+          dateRangeList.notifyListeners();
+        } else {
+          return;
+        }
+      });
+    }
+  }
 }

@@ -54,7 +54,8 @@ class _UserNameBarState extends State<UserNameBar> {
                 ],
               ),
               Text(
-                dateTime(),
+                todayDate(),
+                // date(),
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -82,5 +83,19 @@ class _UserNameBarState extends State<UserNameBar> {
     final dateFormat = DateFormat.MMMd().format(dates);
     final splitDate = dateFormat.split(' ');
     return '${splitDate.last} / ${splitDate.first}';
+  }
+
+  String date() {
+    final dates = DateTime.now();
+    final dateFormat = DateFormat.yMMMd().format(dates);
+    final splitDate = dateFormat.split('*');
+    return '${splitDate}';
+  }
+
+  String todayDate() {
+    var now = DateTime.now();
+    var formatter = DateFormat('dd / MMM');
+    String formattedDate = formatter.format(now);
+    return formattedDate;
   }
 }

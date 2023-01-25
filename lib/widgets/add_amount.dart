@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,9 +15,11 @@ class AddAmount extends StatefulWidget {
 }
 
 class _AddAmountState extends State<AddAmount> {
+  TextEditingController dateController = TextEditingController();
   final _amountController = TextEditingController();
-  final _dateController = TextEditingController();
+  // final _dateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  DateTime? pickedDate;
   String? _categoryController;
   String? _typeController;
 
@@ -87,7 +91,7 @@ class _AddAmountState extends State<AddAmount> {
                   height: 10,
                 ),
                 TextFormField(
-                  controller: _dateController,
+                  controller: dateController,
                   decoration: const InputDecoration(
                     hintText: 'Pick a date',
                     filled: true,
@@ -107,19 +111,18 @@ class _AddAmountState extends State<AddAmount> {
                   },
                   readOnly: true,
                   onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
+                    pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2100),
                     );
                     if (pickedDate != null) {
-                      print(pickedDate);
-                      String formattedDate =
-                          DateFormat('dd-MM-yyyy').format(pickedDate);
-                      print(formattedDate);
                       setState(() {
-                        _dateController.text = formattedDate;
+                        // DateFormat format =  DateFormat('yyy-MM-dd');
+
+                        dateController.text =
+                            DateFormat('MMM dd, yyyy').format(pickedDate!);
                       });
                     } else {
                       print('Date is not selected');
@@ -235,7 +238,7 @@ class _AddAmountState extends State<AddAmount> {
                     ),
                   ],
                   onChanged: (value) {
-                    print(value);
+                    // print(value);
                     setState(() {
                       _typeController = value;
                     });
@@ -282,50 +285,37 @@ class _AddAmountState extends State<AddAmount> {
 
   Future<void> toCashButtonClicked() async {
     final amount = _amountController.text.trim();
-    final date = _dateController.text.trim();
+    final date = dateController.text;
     final category = _categoryController;
     final type = _typeController;
+
+    log('button clicked');
 
     if (amount.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
       return;
     }
+    log('Null checked');
+
     final parsedAmount = double.tryParse(amount);
     if (parsedAmount == null) {
+      log('amount null');
       return;
+    } else {
+      log('amount have value');
     }
+
+    // DateFormat format = DateFormat("MMM dd, yyyy");
+
     final addAmount = TransactionModel(
-      id: DateTime.now().toString(),
-      amount: parsedAmount,
-      date: date,
-      category: category,
-      type: type,
-    );
+        id: DateTime.now().toString(),
+        amount: parsedAmount,
+        date: pickedDate!,
+        category: category,
+        type: type);
+
+    log('addamount');
     TransactionDB().insertCashTransactions(addAmount);
-    Navigator.of(context).pop();
-    setState(() {});
-  }
-
-  Future<void> toBankButtonClicked() async {
-    final amount = _amountController.text.trim();
-    final date = _dateController.text.trim();
-    final category = _categoryController;
-    final type = _typeController;
-
-    if (amount.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
-      return;
-    }
-    final parsedAmount = double.tryParse(amount);
-    if (parsedAmount == null) {
-      return;
-    }
-    final addAmount = TransactionModel(
-      id: DateTime.now().toString(),
-      amount: parsedAmount,
-      date: date,
-      category: category,
-      type: type,
-    );
-    TransactionDB().insertBankTransactions(addAmount);
+    log('stored');
     Navigator.of(context).pop();
     setState(() {});
   }
