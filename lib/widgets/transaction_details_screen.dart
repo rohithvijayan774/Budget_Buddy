@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 
 class TransactionDetailsScreen extends StatefulWidget {
   const TransactionDetailsScreen(
@@ -71,7 +72,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                   height: 10,
                 ),
                 Text(
-                  'Date : ${widget.date}',
+                  'Date : ${parsedDate(widget.date)}',
                   style: const TextStyle(
                     fontSize: 30,
                     color: Colors.white,
@@ -91,5 +92,10 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
         ),
       ),
     );
+  }
+
+  String parsedDate(DateTime dates) {
+    final date = DateFormat.yMMMd().format(dates);
+    return date;
   }
 }

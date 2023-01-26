@@ -183,6 +183,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                               height: 100,
                               color: const Color.fromARGB(255, 14, 69, 113),
                               child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextButton(
@@ -210,7 +211,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           padding: const EdgeInsets.only(top: 50),
                           child: Container(
                             padding: const EdgeInsets.only(
-                              top: 10,
+                              top: 20,
                               right: 10,
                               left: 10,
                             ),
@@ -293,7 +294,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 },
                                 separatorBuilder: (context, index) {
                                   return const SizedBox(
-                                    height: 10,
+                                    height: 15,
                                   );
                                 },
                                 itemCount: foundTransactionNotifier.length),
@@ -311,12 +312,32 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           Container(
                             height: 100,
                             color: const Color.fromARGB(255, 14, 69, 113),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextButton(
+                                    onPressed: () async {
+                                      dropdownValue = 1;
+                                      dropdownValueforFilterSorting = 0;
+                                      await dateRange();
+                                      setState(() {
+                                        if (dateRangeList.value.isNotEmpty) {
+                                          foundTransactionNotifier =
+                                              dateRangeList.value;
+                                        } else {
+                                          return;
+                                        }
+                                      });
+                                    },
+                                    child: const Text('Custom Date'))
+                              ],
+                            ),
                           ),
                         ],
                       ),
                       Positioned(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 50),
                           child: Container(
                             padding: const EdgeInsets.only(
                               top: 10,
@@ -436,7 +457,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
           DateTime.now().year, DateTime.now().month, DateTime.now().day),
     );
     DateTimeRange? picked = await showDateRangePicker(
-        context: navigatorKey.currentContext!,
+        context: context,
         firstDate: DateTime(DateTime.now().year - 1),
         lastDate: DateTime.now(),
         initialDateRange: daterange);

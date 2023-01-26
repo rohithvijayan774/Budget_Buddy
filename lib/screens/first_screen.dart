@@ -119,10 +119,19 @@ class _FirstScreenState extends State<FirstScreen> {
               const SizedBox(
                 height: 30,
               ),
-              const Text(
-                'Recent Transactions :',
-                textAlign: TextAlign.end,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.only(left: 30),
+                    child: Text(
+                      'Recent Transactions :',
+                      textAlign: TextAlign.end,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
               Expanded(
                 child: Container(
