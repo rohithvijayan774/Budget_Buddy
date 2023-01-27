@@ -5,7 +5,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/splash_screen.dart';
-import 'package:money_management/screens/transaction_screen.dart';
 import 'package:money_management/widgets/transaction_bar.dart';
 import 'package:money_management/widgets/transaction_details_screen.dart';
 

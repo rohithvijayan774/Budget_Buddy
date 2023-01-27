@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
@@ -17,13 +16,13 @@ class PrivacyPolicyScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(10),
             child: Text('''Privacy Policy :
-      Rohith Vijayan built the My Money app as a Free app. This SERVICE is provided by Rohith Vijayan at no cost and is intended for use as is.
+      Rohith Vijayan built the Budget Buddy app as a Free app. This SERVICE is provided by Rohith Vijayan at no cost and is intended for use as is.
       
       This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
       
       If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy.
       
-      The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at My Money unless otherwise defined in this Privacy Policy.
+      The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at Budget Buddy unless otherwise defined in this Privacy Policy.
       
       Information Collection and Use
       
@@ -81,4 +80,3 @@ class PrivacyPolicyScreen extends StatelessWidget {
     );
   }
 }
-//h

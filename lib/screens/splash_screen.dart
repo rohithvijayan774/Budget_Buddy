@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:money_management/main.dart';
 import 'package:money_management/screens/name_screen.dart';
 import 'package:money_management/widgets/home_screen.dart';

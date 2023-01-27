@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
-import 'package:money_management/screens/search_transactions.dart';
-import 'package:money_management/widgets/date_picker.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -90,7 +88,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(top: 80),
+                                padding: const EdgeInsets.only(top: 80),
                                 child: Text(
                                   chartTransactionNotifier ==
                                           TransactionDB
@@ -170,7 +168,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 130),
+                          padding:const EdgeInsets.only(top: 130),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

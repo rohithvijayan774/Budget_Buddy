@@ -93,7 +93,6 @@ class TransactionDB implements TransactionDbFunction {
         await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
     transactionDB.clear();
     refreshUI();
-    log('Reset All');
   }
 
   List totalAllNotifier = [];

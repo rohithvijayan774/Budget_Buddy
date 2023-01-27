@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_management/main.dart';
-import 'package:money_management/screens/first_screen.dart';
 import 'package:money_management/widgets/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,13 +36,9 @@ class NameScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'MY WALLET',
+                  'BUDGET BUDDY',
                   style: GoogleFonts.caveat(
                       textStyle: const TextStyle(fontSize: 50)),
-                  // style: TextStyle(
-                  //   fontSize: 40,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
                 ),
                 const SizedBox(
                   height: 50,
@@ -118,8 +113,6 @@ class NameScreen extends StatelessWidget {
       final sharedprefs = await SharedPreferences.getInstance();
       await sharedprefs.setString(SAVE_KEY_NAME, userName);
 
-      log("${sharedprefs.getString(SAVE_KEY_NAME)}");
-
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => const HomeScreen()));
     } else {
@@ -131,8 +124,6 @@ class NameScreen extends StatelessWidget {
     final guest = guestUser.toString();
     final sharedPref = await SharedPreferences.getInstance();
     await sharedPref.setString(SAVE_KEY_NAME, guest);
-
-    log("${sharedPref.getString(SAVE_KEY_NAME)}");
 
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (ctx) => const HomeScreen()));

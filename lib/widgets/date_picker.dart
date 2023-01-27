@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:intl/intl.dart';
 
 class DatePicker extends StatefulWidget {
@@ -42,14 +40,11 @@ class _DatePickerState extends State<DatePicker> {
             lastDate: DateTime(2100),
           );
           if (pickedDate != null) {
-            print(pickedDate);
             String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
-            print(formattedDate);
+
             setState(() {
               dateController.text = formattedDate;
             });
-          } else {
-            print('Date is not selected');
           }
         },
       ),

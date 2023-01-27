@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/search_transactions.dart';
 import 'package:money_management/widgets/add_amount.dart';
-import 'package:money_management/widgets/home_screen.dart';
+
 
 import 'package:money_management/widgets/transaction_bar.dart';
 import 'package:money_management/widgets/transaction_details_screen.dart';

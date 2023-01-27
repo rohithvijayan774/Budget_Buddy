@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:money_management/details/app_info_screen.dart';
 import 'package:money_management/details/privacy_policy_screen.dart';
 import 'package:money_management/details/terms_conditions.dart';

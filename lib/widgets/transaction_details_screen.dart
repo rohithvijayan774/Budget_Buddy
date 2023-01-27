@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:intl/intl.dart';
 
 class TransactionDetailsScreen extends StatefulWidget {
@@ -31,11 +30,10 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
       ),
       body: Center(
         child: ListView(
-          padding:const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           shrinkWrap: true,
           children: [
             Container(
-              // margin: EdgeInsets.only(top: 150),
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),

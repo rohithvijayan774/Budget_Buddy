@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
         extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
             backgroundColor: Colors.transparent,
-            color: Color.fromARGB(255, 221, 219, 219),
+            color:const Color.fromARGB(255, 221, 219, 219),
             animationCurve: Curves.easeInOutCubic,
             index: 0,
             height: 50,

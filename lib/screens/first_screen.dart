@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,9 +34,8 @@ class _FirstScreenState extends State<FirstScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'MY WALLET APP',
-          style: GoogleFonts.kalam(textStyle: const TextStyle(fontSize: 30)),
-          // style: TextStyle(fontSize: 25),
+          'BUDGET BUDDY',
+          style: GoogleFonts.alef(textStyle: const TextStyle(fontSize: 30)),
         ),
       ),
       body: ListView(

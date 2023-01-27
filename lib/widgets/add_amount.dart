@@ -1,9 +1,7 @@
 import 'dart:developer';
 
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:loading_btn/loading_btn.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 
@@ -128,9 +126,7 @@ class _AddAmountState extends State<AddAmount> {
                         dateController.text =
                             DateFormat('MMM dd, yyyy').format(pickedDate!);
                       });
-                    } else {
-                      print('Date is not selected');
-                    }
+                    } else {}
                   },
                 ),
                 const SizedBox(
@@ -242,7 +238,6 @@ class _AddAmountState extends State<AddAmount> {
                     ),
                   ],
                   onChanged: (value) {
-                    // print(value);
                     setState(() {
                       _typeController = value;
                     });
@@ -266,6 +261,7 @@ class _AddAmountState extends State<AddAmount> {
                   height: 10,
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.sentences,
                   controller: _noteController,
                   decoration: const InputDecoration(
                     hintText: 'Note',
@@ -321,8 +317,6 @@ class _AddAmountState extends State<AddAmount> {
     final type = _typeController;
     final note = _noteController.text;
 
-    log('button clicked');
-
     if (amount.isEmpty ||
         date.isEmpty ||
         category!.isEmpty ||
@@ -330,17 +324,11 @@ class _AddAmountState extends State<AddAmount> {
         note.isEmpty) {
       return;
     }
-    log('Null checked');
 
     final parsedAmount = double.tryParse(amount);
     if (parsedAmount == null) {
-      log('amount null');
       return;
-    } else {
-      log('amount have value');
     }
-
-    // DateFormat format = DateFormat("MMM dd, yyyy");
 
     final addAmount = TransactionModel(
         id: DateTime.now().toString(),
@@ -350,9 +338,8 @@ class _AddAmountState extends State<AddAmount> {
         type: type,
         notes: note);
 
-    log('addamount');
     TransactionDB().insertCashTransactions(addAmount);
-    log('stored');
+
     Navigator.of(context).pop();
     setState(() {});
   }

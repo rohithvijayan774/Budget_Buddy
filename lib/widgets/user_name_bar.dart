@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:money_management/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +35,7 @@ class _UserNameBarState extends State<UserNameBar> {
               Row(
                 children: [
                   const Icon(
-                    Icons.person_outline_outlined,
+                    Icons.person,
                     size: 40,
                     color: Colors.white,
                   ),
@@ -49,13 +47,12 @@ class _UserNameBarState extends State<UserNameBar> {
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
               Text(
                 todayDate(),
-                // date(),
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -76,20 +73,6 @@ class _UserNameBarState extends State<UserNameBar> {
     nameValue = getName != null ? getName : "Guest";
 
     setState(() {});
-  }
-
-  String dateTime() {
-    final dates = DateTime.now();
-    final dateFormat = DateFormat.MMMd().format(dates);
-    final splitDate = dateFormat.split(' ');
-    return '${splitDate.last} / ${splitDate.first}';
-  }
-
-  String date() {
-    final dates = DateTime.now();
-    final dateFormat = DateFormat.yMMMd().format(dates);
-    final splitDate = dateFormat.split('*');
-    return '${splitDate}';
   }
 
   String todayDate() {

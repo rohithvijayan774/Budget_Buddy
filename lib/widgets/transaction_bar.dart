@@ -1,12 +1,7 @@
-// import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
-import 'package:money_management/screens/splash_screen.dart';
 
 class TransactionBar extends StatefulWidget {
   const TransactionBar(
@@ -54,8 +49,6 @@ class _TransactionBarState extends State<TransactionBar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(parsedDate(widget.date)),
-                  // Text(date()),
-                  // Text('${widget.transDate}'),
                   Text(
                     widget.type,
                     style: TextStyle(
@@ -94,11 +87,4 @@ class _TransactionBarState extends State<TransactionBar> {
     final date = DateFormat.yMMMd().format(dates);
     return date;
   }
-
-  // String date() {
-  //   final dates = DateTime.now();
-  //   final dateFormat = DateFormat.yMMMd().format(dates);
-  //   final splitDate = dateFormat.split('*');
-  //   return '${splitDate}';
-  // }
 }
