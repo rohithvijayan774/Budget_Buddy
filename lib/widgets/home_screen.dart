@@ -51,10 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBody: false,
+        extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
             backgroundColor: Colors.transparent,
-            color: Colors.white,
+            color: Color.fromARGB(255, 221, 219, 219),
             animationCurve: Curves.easeInOutCubic,
             index: 0,
             height: 50,

@@ -16,7 +16,10 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('SETTINGS'),
+        title: const Text(
+          'Settings',
+          style: TextStyle(fontSize: 25),
+        ),
       ),
       body: ListView(
         children: [

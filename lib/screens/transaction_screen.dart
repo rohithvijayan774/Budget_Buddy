@@ -42,37 +42,46 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     TransactionDB.instance.refreshUI();
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        elevation: 5,
-        foregroundColor: const Color.fromARGB(255, 14, 69, 113),
-        backgroundColor: Colors.white,
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-              pageBuilder: (BuildContext context, Animation<double> animation,
-                  Animation<double> secondaryAnimation) {
-                return const AddAmount();
-              },
-              transitionsBuilder: (BuildContext context,
-                  Animation<double> animation,
-                  Animation<double> secondaryAnimation,
-                  Widget child) {
-                return Align(
-                  child: SizeTransition(
-                    sizeFactor: animation,
-                    child: child,
+      floatingActionButton: Stack(
+        children: [
+          Positioned(
+            right: 0,
+            bottom: 50,
+            child: FloatingActionButton(
+              elevation: 5,
+              foregroundColor: const Color.fromARGB(255, 14, 69, 113),
+              backgroundColor: Colors.white,
+              child: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation) {
+                      return const AddAmount();
+                    },
+                    transitionsBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
+                      return Align(
+                        child: SizeTransition(
+                          sizeFactor: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 400),
                   ),
                 );
               },
-              transitionDuration: const Duration(milliseconds: 400),
             ),
-          );
-        },
+          ),
+        ],
       ),
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(left: 5),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
               items: [
@@ -242,10 +251,12 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                               Animation<double>
                                                   secondaryAnimation) {
                                             return TransactionDetailsScreen(
-                                                date: transaction.date,
-                                                type: transaction.type,
-                                                amount: transaction.amount,
-                                                category: transaction.category);
+                                              date: transaction.date,
+                                              type: transaction.type,
+                                              amount: transaction.amount,
+                                              category: transaction.category,
+                                              notes: transaction.notes!,
+                                            );
                                           },
                                           transitionsBuilder:
                                               (BuildContext context,

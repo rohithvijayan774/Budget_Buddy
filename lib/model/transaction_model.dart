@@ -13,6 +13,8 @@ class TransactionModel {
   final String category;
   @HiveField(4)
   final String type;
+  @HiveField(5)
+  final String? notes;
 
   TransactionModel({
     required this.id,
@@ -20,6 +22,7 @@ class TransactionModel {
     required this.date,
     required this.category,
     required this.type,
+    required this.notes,
   });
   @override
   String toString() {

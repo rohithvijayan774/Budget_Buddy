@@ -1,17 +1,11 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:money_management/details/app_info_screen.dart';
-import 'package:money_management/details/privacy_policy_screen.dart';
-import 'package:money_management/details/terms_conditions.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
-import 'package:money_management/screens/name_screen.dart';
 import 'package:money_management/screens/splash_screen.dart';
-import 'package:money_management/screens/transaction_screen.dart';
 
 import 'package:money_management/widgets/transaction_bar.dart';
 import 'package:money_management/widgets/transaction_details_screen.dart';
@@ -42,201 +36,227 @@ class _FirstScreenState extends State<FirstScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'MY MONEY APP',
+          'MY WALLET APP',
           style: GoogleFonts.kalam(textStyle: const TextStyle(fontSize: 30)),
           // style: TextStyle(fontSize: 25),
         ),
       ),
-      body: ValueListenableBuilder(
-        valueListenable: TransactionDB().allCashTransactionList,
-        builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
-          return Column(
-            children: [
-              const UserNameBar(),
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 17,
-                ),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 14, 69, 113),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
+      body: ListView(
+        children: [
+          ValueListenableBuilder(
+            valueListenable: TransactionDB().allCashTransactionList,
+            builder:
+                (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
+              return Column(
+                children: [
+                  const UserNameBar(),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 17,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 14, 69, 113),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(5, 10),
+                            blurRadius: 10,
+                            spreadRadius: 1)
+                      ],
+                    ),
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          'Balance',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          '₹ ${TransactionDB.instance.addTotalTransaction()[0]}',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(5, 10),
-                        blurRadius: 10,
-                        spreadRadius: 1)
-                  ],
-                ),
-                height: 80,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'Balance',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      '₹ ${TransactionDB.instance.addTotalTransaction()[0]}',
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                padding: const EdgeInsets.all(25),
-                height: 200,
-                width: 370,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 14, 69, 113),
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0, 5),
-                        blurRadius: 10,
-                        spreadRadius: 1)
-                  ],
-                ),
-                child: const IncomeExpenseHomePage(),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: 30),
-                    child: Text(
-                      'Recent Transactions :',
-                      textAlign: TextAlign.end,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                          height: 200,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 14, 69, 113),
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0, 5),
+                                  blurRadius: 10,
+                                  spreadRadius: 1)
+                            ],
+                          ),
+                          child: const IncomeExpenseHomePage(),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.only(top: 35, left: 10, right: 10),
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
-                    color: Color.fromARGB(255, 14, 69, 113),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black,
-                          offset: Offset(0, 5),
-                          blurRadius: 10,
-                          spreadRadius: 1)
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Text(
+                          'Recent Transactions :',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ],
                   ),
-                  child: ValueListenableBuilder(
-                    valueListenable: TransactionDB().allCashTransactionList,
-                    builder: (BuildContext ctx,
-                        List<TransactionModel> newTransactionList, Widget? _) {
-                      if (newTransactionList.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            'No transactions available',
-                            style:
-                                TextStyle(fontSize: 15, color: Colors.white60),
+                  Column(
+                    children: [
+                      Container(
+                        padding:
+                            const EdgeInsets.only(top: 35, left: 10, right: 10),
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
                           ),
-                        );
-                      }
+                          color: Color.fromARGB(255, 14, 69, 113),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(0, 5),
+                                blurRadius: 10,
+                                spreadRadius: 5)
+                          ],
+                        ),
+                        child: ValueListenableBuilder(
+                          valueListenable:
+                              TransactionDB().allCashTransactionList,
+                          builder: (BuildContext ctx,
+                              List<TransactionModel> newTransactionList,
+                              Widget? _) {
+                            if (newTransactionList.isEmpty) {
+                              return const Center(
+                                child: Text(
+                                  'No transactions available',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white60),
+                                ),
+                              );
+                            }
 
-                      return ListView.separated(
-                        itemBuilder: (context, index) {
-                          final transaction = newTransactionList[index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                PageRouteBuilder(
-                                  pageBuilder: (BuildContext context,
-                                      Animation<double> animation,
-                                      Animation<double> secondaryAnimation) {
-                                    return TransactionDetailsScreen(
-                                        date: transaction.date,
-                                        type: transaction.type,
-                                        amount: transaction.amount,
-                                        category: transaction.category);
-                                  },
-                                  transitionsBuilder: (BuildContext context,
-                                      Animation<double> animation,
-                                      Animation<double> secondaryAnimation,
-                                      child) {
-                                    return Align(
-                                      child: SizeTransition(
-                                        sizeFactor: animation,
-                                        child: child,
+                            return ListView.separated(
+                              itemBuilder: (context, index) {
+                                final transaction = newTransactionList[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        pageBuilder: (BuildContext context,
+                                            Animation<double> animation,
+                                            Animation<double>
+                                                secondaryAnimation) {
+                                          return TransactionDetailsScreen(
+                                            date: transaction.date,
+                                            type: transaction.type,
+                                            amount: transaction.amount,
+                                            category: transaction.category,
+                                            notes: transaction.notes!,
+                                          );
+                                        },
+                                        transitionsBuilder:
+                                            (BuildContext context,
+                                                Animation<double> animation,
+                                                Animation<double>
+                                                    secondaryAnimation,
+                                                child) {
+                                          return Align(
+                                            child: SizeTransition(
+                                              sizeFactor: animation,
+                                              child: child,
+                                            ),
+                                          );
+                                        },
                                       ),
                                     );
                                   },
-                                ),
-                              );
-                            },
-                            child: Slidable(
-                              key: Key(transaction.id),
-                              startActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      backgroundColor: Colors.red,
-                                      borderRadius: BorderRadius.circular(30),
-                                      onPressed: (context) {
-                                        deleteDialogue(transaction.id);
-                                      },
-                                      icon: Icons.delete,
-                                      label: 'Delete',
-                                    )
-                                  ]),
-                              child: Center(
-                                child: TransactionBar(
-                                    date: transaction.date,
-                                    type: transaction.type,
-                                    amount: transaction.amount,
-                                    category: transaction.category),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 20,
-                          );
-                        },
-                        itemCount: (newTransactionList.length < 3
-                            ? newTransactionList.length
-                            : 3),
-                      );
-                    },
+                                  child: Slidable(
+                                    key: Key(transaction.id),
+                                    startActionPane: ActionPane(
+                                        motion: const ScrollMotion(),
+                                        children: [
+                                          SlidableAction(
+                                            backgroundColor: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            onPressed: (context) {
+                                              deleteDialogue(transaction.id);
+                                            },
+                                            icon: Icons.delete,
+                                            label: 'Delete',
+                                          )
+                                        ]),
+                                    child: Center(
+                                      child: TransactionBar(
+                                          date: transaction.date,
+                                          type: transaction.type,
+                                          amount: transaction.amount,
+                                          category: transaction.category),
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  height: 20,
+                                );
+                              },
+                              itemCount: (newTransactionList.length < 3
+                                  ? newTransactionList.length
+                                  : 3),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ],
-          );
-        },
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

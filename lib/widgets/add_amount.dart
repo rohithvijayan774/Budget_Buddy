@@ -22,13 +22,17 @@ class _AddAmountState extends State<AddAmount> {
   DateTime? pickedDate;
   String? _categoryController;
   String? _typeController;
+  final _noteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Add Amount'),
+        title: const Text(
+          'Add Amount',
+          style: TextStyle(fontSize: 25),
+        ),
       ),
       body: Container(
         margin: const EdgeInsets.all(10),
@@ -252,6 +256,33 @@ class _AddAmountState extends State<AddAmount> {
                   },
                 ),
                 const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  'Enter Note : ',
+                  style: TextStyle(fontSize: 17, color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: _noteController,
+                  decoration: const InputDecoration(
+                    hintText: 'Note',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                const SizedBox(
                   height: 50,
                 ),
                 ElevatedButton(
@@ -288,10 +319,15 @@ class _AddAmountState extends State<AddAmount> {
     final date = dateController.text;
     final category = _categoryController;
     final type = _typeController;
+    final note = _noteController.text;
 
     log('button clicked');
 
-    if (amount.isEmpty || date.isEmpty || category!.isEmpty || type!.isEmpty) {
+    if (amount.isEmpty ||
+        date.isEmpty ||
+        category!.isEmpty ||
+        type!.isEmpty ||
+        note.isEmpty) {
       return;
     }
     log('Null checked');
@@ -311,7 +347,8 @@ class _AddAmountState extends State<AddAmount> {
         amount: parsedAmount,
         date: pickedDate!,
         category: category,
-        type: type);
+        type: type,
+        notes: note);
 
     log('addamount');
     TransactionDB().insertCashTransactions(addAmount);

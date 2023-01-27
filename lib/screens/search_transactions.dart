@@ -103,10 +103,12 @@ class _SearchTransactionsState extends State<SearchTransactions> {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             TransactionDetailsScreen(
-                                                date: transaction.date,
-                                                type: transaction.type,
-                                                amount: transaction.amount,
-                                                category: transaction.category),
+                                          date: transaction.date,
+                                          type: transaction.type,
+                                          amount: transaction.amount,
+                                          category: transaction.category,
+                                          notes: transaction.notes!,
+                                        ),
                                       ),
                                     );
                                     log('long pressed');

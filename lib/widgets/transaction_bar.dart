@@ -32,7 +32,7 @@ class _TransactionBarState extends State<TransactionBar> {
       builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
         return Container(
           padding: const EdgeInsets.all(15),
-          height: 80,
+          height: MediaQuery.of(context).size.width / 4,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 202, 200, 200),
@@ -66,7 +66,7 @@ class _TransactionBarState extends State<TransactionBar> {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -15,92 +15,97 @@ class NameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: 400,
-          width: 350,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 202, 200, 200),
-            borderRadius: BorderRadius.circular(40),
-            boxShadow: const [
-              BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(0, 20),
-                  blurRadius: 10,
-                  spreadRadius: 1)
-            ],
-          ),
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'MY MONEY',
-                style: GoogleFonts.caveat(
-                    textStyle: const TextStyle(fontSize: 50)),
-                // style: TextStyle(
-                //   fontSize: 40,
-                //   fontWeight: FontWeight.bold,
-                // ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Enter your name :',
-                    style: TextStyle(fontSize: 17),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Form(
-                    key: nameFormKey,
-                    child: TextFormField(
-                      textCapitalization: TextCapitalization.words,
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                          filled: true,
-                          fillColor: Colors.white),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: const StadiumBorder(),
-                  textStyle: const TextStyle(fontSize: 18),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 130),
-                  backgroundColor: const Color.fromARGB(255, 14, 69, 113),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 202, 200, 200),
+              borderRadius: BorderRadius.circular(40),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0, 20),
+                    blurRadius: 10,
+                    spreadRadius: 1)
+              ],
+            ),
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'MY WALLET',
+                  style: GoogleFonts.caveat(
+                      textStyle: const TextStyle(fontSize: 50)),
+                  // style: TextStyle(
+                  //   fontSize: 40,
+                  //   fontWeight: FontWeight.bold,
+                  // ),
                 ),
-                onPressed: () {
-                  submitButtonClicked(context);
-                  if (nameFormKey.currentState!.validate()) {}
-                },
-                child: const Text('SUBMIT'),
-              ),
-              TextButton(
+                const SizedBox(
+                  height: 50,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Enter your name :',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Form(
+                      key: nameFormKey,
+                      child: TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                        controller: nameController,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50))),
+                            filled: true,
+                            fillColor: Colors.white),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    textStyle: const TextStyle(fontSize: 18),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 50,
+                      vertical: 20,
+                    ),
+                    backgroundColor: const Color.fromARGB(255, 14, 69, 113),
+                  ),
                   onPressed: () {
-                    guestButtonClicked(context);
+                    submitButtonClicked(context);
+                    if (nameFormKey.currentState!.validate()) {}
                   },
-                  child: const Text('Continue as guest'))
-            ],
+                  child: const Text('SUBMIT'),
+                ),
+                TextButton(
+                    onPressed: () {
+                      guestButtonClicked(context);
+                    },
+                    child: const Text('Continue as guest'))
+              ],
+            ),
           ),
         ),
       ),

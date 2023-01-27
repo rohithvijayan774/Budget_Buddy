@@ -22,9 +22,9 @@ class _IncomeExpenseHomePageState extends State<IncomeExpenseHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              padding: const EdgeInsets.all(20),
-              height: 300,
-              width: 150,
+              padding: const EdgeInsets.all(10),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width / 2.4,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 202, 200, 200),
                 borderRadius: BorderRadius.circular(30),
@@ -56,9 +56,9 @@ class _IncomeExpenseHomePageState extends State<IncomeExpenseHomePage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20),
-              height: 300,
-              width: 150,
+              padding: const EdgeInsets.all(10),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width / 2.4,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 202, 200, 200),
                 borderRadius: BorderRadius.circular(30),

@@ -27,10 +27,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: const Text('STATISTICS'),
+        title: const Text(
+          'Statistics',
+          style: TextStyle(fontSize: 25),
+        ),
         leadingWidth: 100,
         leading: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(left: 5),
           child: DropdownButtonHideUnderline(
               child: DropdownButton(
             value: dropdownValue,
@@ -66,6 +69,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 },
               ),
             ],
+            borderRadius: BorderRadius.circular(10),
             onChanged: (value) {
               setState(() {
                 dropdownValue = value!;
@@ -119,7 +123,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                       dataSource: chartTransactionNotifier,
                                       xValueMapper:
                                           (TransactionModel data, _) =>
-                                              data.category,
+                                              data.notes,
                                       yValueMapper: (TransactionModel data, _) {
                                         return data.amount;
                                       },
@@ -133,6 +137,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             ],
                           )
                         : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: const [
                               Icon(
                                 Icons.add_to_photos,
