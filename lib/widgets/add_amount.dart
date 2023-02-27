@@ -14,13 +14,12 @@ class AddAmount extends StatefulWidget {
 
 class _AddAmountState extends State<AddAmount> {
   TextEditingController dateController = TextEditingController();
-  final _amountController = TextEditingController();
-  // final _dateController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   DateTime? pickedDate;
   String? _categoryController;
   String? _typeController;
-  final _noteController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +62,7 @@ class _AddAmountState extends State<AddAmount> {
                 ),
                 TextFormField(
                   keyboardType: const TextInputType.numberWithOptions(),
-                  controller: _amountController,
+                  controller: amountController,
                   decoration: const InputDecoration(
                     hintText: 'Amount',
                     filled: true,
@@ -262,7 +261,7 @@ class _AddAmountState extends State<AddAmount> {
                 ),
                 TextFormField(
                   textCapitalization: TextCapitalization.sentences,
-                  controller: _noteController,
+                  controller: noteController,
                   decoration: const InputDecoration(
                     hintText: 'Note',
                     filled: true,
@@ -311,11 +310,11 @@ class _AddAmountState extends State<AddAmount> {
   }
 
   Future<void> toCashButtonClicked() async {
-    final amount = _amountController.text.trim();
+    final amount = amountController.text.trim();
     final date = dateController.text;
     final category = _categoryController;
     final type = _typeController;
-    final note = _noteController.text;
+    final note = noteController.text;
 
     if (amount.isEmpty ||
         date.isEmpty ||

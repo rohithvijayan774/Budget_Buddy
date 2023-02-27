@@ -157,25 +157,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   ),
               icon: const Icon(Icons.search))
         ],
-        // actions: [
-        //   isSearching
-        //       ? IconButton(
-        //           onPressed: () {
-        //             setState(() {
-        //               this.isSearching = false;
-        //             });
-        //           },
-        //           icon: const Icon(Icons.close),
-        //         )
-        //       : IconButton(
-        //           onPressed: () {
-        //             setState(() {
-        //               this.isSearching = true;
-        //             });
-        //           },
-        //           icon: const Icon(Icons.search),
-        //         )
-        // ],
       ),
       body: ValueListenableBuilder(
         valueListenable: TransactionDB().allCashTransactionList,
@@ -190,7 +171,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         children: [
                           Container(
                               height: 100,
-                              color: const Color.fromARGB(255, 14, 69, 113),
+                              color:const Color.fromARGB(255, 106, 110, 112),
                               child: Row(
                                 // mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,7 +31,7 @@ class _SearchTransactionsState extends State<SearchTransactions> {
       results = TransactionDB()
           .allCashTransactionList
           .value
-          .where((element) => element.category
+          .where((element) => element.notes!
               .toLowerCase()
               .contains(enteredKeyword.toLowerCase()))
           .toList();
