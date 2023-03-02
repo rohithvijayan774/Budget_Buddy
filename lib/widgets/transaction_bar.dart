@@ -2,26 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
+import 'package:money_management/providers/transaction_bar_provider.dart';
+import 'package:provider/provider.dart';
 
-class TransactionBar extends StatefulWidget {
-  const TransactionBar(
-      {super.key,
-      required this.date,
-      required this.type,
-      required this.amount,
-      required this.category});
+class TransactionBar extends StatelessWidget {
+  const TransactionBar({
+    super.key,
+    required this.date,
+    required this.type,
+    required this.amount,
+    required this.category,
+  });
   final DateTime date;
   final String type;
   final double amount;
   final String category;
 
   @override
-  State<TransactionBar> createState() => _TransactionBarState();
-}
-
-class _TransactionBarState extends State<TransactionBar> {
-  @override
   Widget build(BuildContext context) {
+    // final pro = Provider.of<TransactionBarProvider>(context);
     return ValueListenableBuilder(
       valueListenable: TransactionDB().allCashTransactionList,
       builder: (BuildContext ctx, List<TransactionModel> newList, Widget? _) {
@@ -48,13 +47,11 @@ class _TransactionBarState extends State<TransactionBar> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(parsedDate(widget.date)),
+                  Text(parsedDate(date)),
                   Text(
-                    widget.type,
+                    type,
                     style: TextStyle(
-                        color: widget.type == 'Income'
-                            ? Colors.green
-                            : Colors.red),
+                        color: type == 'Income' ? Colors.green : Colors.red),
                   ),
                 ],
               ),
@@ -65,12 +62,12 @@ class _TransactionBarState extends State<TransactionBar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '₹${widget.amount}',
+                    '₹$amount',
                     style: const TextStyle(
                         fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    widget.category,
+                    category,
                     style: const TextStyle(
                         fontSize: 15, fontWeight: FontWeight.bold),
                   ),

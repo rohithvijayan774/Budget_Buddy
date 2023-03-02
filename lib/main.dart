@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/providers/add_money_provider.dart';
+import 'package:money_management/providers/name_screen_provider.dart';
 import 'package:money_management/providers/transaction_bar_provider.dart';
+import 'package:money_management/providers/user_name_bar_provider.dart';
 import 'package:money_management/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +32,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<TransactionBarProvider>(
           create: (_) => TransactionBarProvider(),
+        ),
+        ChangeNotifierProvider<UserNameBarProvider>(
+          create: (_) => UserNameBarProvider(),
+        ),
+        ChangeNotifierProvider<NameScreenProvider>(
+          create: (_) => NameScreenProvider(),
         ),
       ],
       child: MaterialApp(

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:money_management/main.dart';
-import 'package:money_management/widgets/home_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:money_management/providers/name_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 class NameScreen extends StatelessWidget {
   NameScreen({super.key});
-  final guestUser = 'Guest';
-  final nameController = TextEditingController();
+
   final nameFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +54,8 @@ class NameScreen extends StatelessWidget {
                       key: nameFormKey,
                       child: TextFormField(
                         textCapitalization: TextCapitalization.words,
-                        controller: nameController,
+                        controller: Provider.of<NameScreenProvider>(context)
+                            .nameController,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
@@ -87,14 +87,18 @@ class NameScreen extends StatelessWidget {
                     backgroundColor: const Color.fromARGB(255, 14, 69, 113),
                   ),
                   onPressed: () {
-                    submitButtonClicked(context);
+                    Provider.of<NameScreenProvider>(context, listen: false)
+                        .submitButtonClicked(context);
+                    //   submitButtonClicked(context);
                     if (nameFormKey.currentState!.validate()) {}
                   },
                   child: const Text('SUBMIT'),
                 ),
                 TextButton(
                     onPressed: () {
-                      guestButtonClicked(context);
+                      Provider.of<NameScreenProvider>(context, listen: false)
+                          .guestButtonClicked(context);
+                      // guestButtonClicked(context);
                     },
                     child: const Text('Continue as guest'))
               ],
@@ -103,27 +107,5 @@ class NameScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> submitButtonClicked(BuildContext context) async {
-    final userName = nameController.text.toString();
-    if (userName.isNotEmpty) {
-      final sharedprefs = await SharedPreferences.getInstance();
-      await sharedprefs.setString(SAVE_KEY_NAME, userName);
-
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => const HomeScreen()));
-    } else {
-      return;
-    }
-  }
-
-  Future<void> guestButtonClicked(BuildContext context) async {
-    final guest = guestUser.toString();
-    final sharedPref = await SharedPreferences.getInstance();
-    await sharedPref.setString(SAVE_KEY_NAME, guest);
-
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => const HomeScreen()));
   }
 }

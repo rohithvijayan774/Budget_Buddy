@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
-class TransactionDetailsScreen extends StatefulWidget {
+class TransactionDetailsScreen extends StatelessWidget {
   const TransactionDetailsScreen(
       {super.key,
       required this.date,
@@ -15,12 +15,7 @@ class TransactionDetailsScreen extends StatefulWidget {
   final double amount;
   final String category;
   final String notes;
-  @override
-  State<TransactionDetailsScreen> createState() =>
-      _TransactionDetailsScreenState();
-}
 
-class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +64,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '₹${widget.amount}',
+                          '₹$amount',
                           style: const TextStyle(
                               fontSize: 30,
                               color: Colors.white,
@@ -98,7 +93,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          parsedDate(widget.date),
+                          parsedDate(date),
                           style: const TextStyle(
                               fontSize: 30,
                               color: Colors.white,
@@ -127,7 +122,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          widget.type,
+                          type,
                           style: const TextStyle(
                               fontSize: 30,
                               color: Colors.white,
@@ -156,7 +151,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          widget.category,
+                          category,
                           style: const TextStyle(
                               fontSize: 30,
                               color: Colors.white,
@@ -185,7 +180,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          widget.notes,
+                          notes,
                           style: const TextStyle(
                               fontSize: 30,
                               color: Colors.white,

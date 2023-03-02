@@ -10,7 +10,7 @@ const TRANSACTION_DB_NAME = 'transaction-database';
 abstract class TransactionDbFunction {
   Future<List<TransactionModel>> getTransactions();
   Future<void> insertCashTransactions(TransactionModel value);
-  Future<void> insertBankTransactions(TransactionModel value);
+  // Future<void> insertBankTransactions(TransactionModel value);
   Future<void> deleteTransactions(String transactionID);
   Future<void> resetAll();
 }
@@ -40,14 +40,14 @@ class TransactionDB implements TransactionDbFunction {
     refreshUI();
   }
 
-  @override
-  Future<void> insertBankTransactions(TransactionModel value) async {
-    final TransactionDB =
-        await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
-    await TransactionDB.put(value.id, value);
+  // @override
+  // Future<void> insertBankTransactions(TransactionModel value) async {
+  //   final TransactionDB =
+  //       await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
+  //   await TransactionDB.put(value.id, value);
 
-    refreshUI();
-  }
+  //   refreshUI();
+  // }
 
   @override
   Future<List<TransactionModel>> getTransactions() async {

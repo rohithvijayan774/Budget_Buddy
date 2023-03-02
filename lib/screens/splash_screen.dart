@@ -41,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Column(
               children: const [
                 CircularProgressIndicator(
+                  strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                 ),
                 SizedBox(
