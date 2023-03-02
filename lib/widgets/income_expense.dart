@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 
-class IncomeExpenseHomePage extends StatefulWidget {
+class IncomeExpenseHomePage extends StatelessWidget {
   const IncomeExpenseHomePage({
     super.key,
   });
-
-  @override
-  State<IncomeExpenseHomePage> createState() => _IncomeExpenseHomePageState();
-}
-
-class _IncomeExpenseHomePageState extends State<IncomeExpenseHomePage> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(

@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +24,12 @@ class TransactionDB implements TransactionDbFunction {
 
   ValueNotifier<List<TransactionModel>> allCashTransactionList =
       ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> allBankTransactionList =
-      ValueNotifier([]);
+  // ValueNotifier<List<TransactionModel>> allBankTransactionList =
+  //     ValueNotifier([]);
   ValueNotifier<List<TransactionModel>> cashIncomeNotifier = ValueNotifier([]);
   ValueNotifier<List<TransactionModel>> cashExpenseNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> bankExpenseNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModel>> bankIncomeNotifier = ValueNotifier([]);
+  // ValueNotifier<List<TransactionModel>> bankExpenseNotifier = ValueNotifier([]);
+  // ValueNotifier<List<TransactionModel>> bankIncomeNotifier = ValueNotifier([]);
 
   @override
   Future<void> insertCashTransactions(TransactionModel value) async {

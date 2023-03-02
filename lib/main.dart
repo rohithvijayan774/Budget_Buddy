@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:money_management/model/transaction_model.dart';
+import 'package:money_management/providers/add_money_provider.dart';
+import 'package:money_management/providers/transaction_bar_provider.dart';
 import 'package:money_management/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 const SAVE_KEY_NAME = 'UserLoggenIn';
 Future<void> main() async {
@@ -19,14 +22,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Budget Buddy',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Color.fromARGB(255, 14, 69, 113)),
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AddMoneyProvider>(
+          create: (_) => AddMoneyProvider(),
+        ),
+        ChangeNotifierProvider<TransactionBarProvider>(
+          create: (_) => TransactionBarProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Budget Buddy',
+        theme: ThemeData(
+          appBarTheme:
+              const AppBarTheme(color: Color.fromARGB(255, 14, 69, 113)),
+          primarySwatch: Colors.blue,
+        ),
+        home: const SplashScreen(),
       ),
-      home: const SplashScreen(),
     );
   }
 }

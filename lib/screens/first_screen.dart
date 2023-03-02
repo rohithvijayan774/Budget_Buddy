@@ -227,10 +227,11 @@ class _FirstScreenState extends State<FirstScreen> {
                                         ]),
                                     child: Center(
                                       child: TransactionBar(
-                                          date: transaction.date,
-                                          type: transaction.type,
-                                          amount: transaction.amount,
-                                          category: transaction.category),
+                                        date: transaction.date,
+                                        type: transaction.type,
+                                        amount: transaction.amount,
+                                        category: transaction.category,
+                                      ),
                                     ),
                                   ),
                                 );

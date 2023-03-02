@@ -2,27 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:money_management/functions/transaction_db.dart';
-import 'package:money_management/model/transaction_model.dart';
+import 'package:money_management/providers/add_money_provider.dart';
+import 'package:provider/provider.dart';
 
-class AddAmount extends StatefulWidget {
-  const AddAmount({super.key});
+class AddAmount extends StatelessWidget {
+  AddAmount({super.key});
 
-  @override
-  State<AddAmount> createState() => _AddAmountState();
-}
-
-class _AddAmountState extends State<AddAmount> {
-  TextEditingController dateController = TextEditingController();
-  TextEditingController amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  DateTime? pickedDate;
-  String? _categoryController;
-  String? _typeController;
-  TextEditingController noteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final addMoneyPro = Provider.of<AddMoneyProvider>(context);
+    final addMoneyProLF = Provider.of<AddMoneyProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -62,7 +53,7 @@ class _AddAmountState extends State<AddAmount> {
                 ),
                 TextFormField(
                   keyboardType: const TextInputType.numberWithOptions(),
-                  controller: amountController,
+                  controller: addMoneyPro.amountController,
                   decoration: const InputDecoration(
                     hintText: 'Amount',
                     filled: true,
@@ -92,7 +83,7 @@ class _AddAmountState extends State<AddAmount> {
                   height: 10,
                 ),
                 TextFormField(
-                  controller: dateController,
+                  controller: addMoneyPro.dateController,
                   decoration: const InputDecoration(
                     hintText: 'Pick a date',
                     filled: true,
@@ -112,19 +103,23 @@ class _AddAmountState extends State<AddAmount> {
                   },
                   readOnly: true,
                   onTap: () async {
-                    pickedDate = await showDatePicker(
+                    addMoneyPro.pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2100),
                     );
-                    if (pickedDate != null) {
-                      setState(() {
-                        // DateFormat format =  DateFormat('yyy-MM-dd');
+                    if (addMoneyPro.pickedDate != null) {
+                      addMoneyPro.dateController.text =
+                          DateFormat('MMM dd, yyyy')
+                              .format(addMoneyPro.pickedDate!);
+                      // setState(() {
+                      //   // DateFormat format =  DateFormat('yyy-MM-dd');
 
-                        dateController.text =
-                            DateFormat('MMM dd, yyyy').format(pickedDate!);
-                      });
+                      //   addMoneyPro.dateController.text =
+                      //       DateFormat('MMM dd, yyyy')
+                      //           .format(addMoneyPro.pickedDate!);
+                      // });
                     } else {}
                   },
                 ),
@@ -151,7 +146,7 @@ class _AddAmountState extends State<AddAmount> {
                       filled: true,
                       fillColor: Colors.white),
                   hint: const Text('Categories...'),
-                  value: _categoryController,
+                  value: addMoneyPro.categoryController,
                   items: const [
                     DropdownMenuItem(
                       value: 'Travel',
@@ -187,11 +182,12 @@ class _AddAmountState extends State<AddAmount> {
                     ),
                   ],
                   onChanged: (value) {
-                    setState(
-                      () {
-                        _categoryController = value;
-                      },
-                    );
+                    addMoneyPro.categoryController = value;
+                    // setState(
+                    //   () {
+
+                    //   },
+                    // );
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -224,7 +220,7 @@ class _AddAmountState extends State<AddAmount> {
                       filled: true,
                       fillColor: Colors.white),
                   hint: const Text('Select Type'),
-                  value: _typeController,
+                  value: addMoneyPro.typeController,
                   isExpanded: true,
                   items: const [
                     DropdownMenuItem(
@@ -237,9 +233,10 @@ class _AddAmountState extends State<AddAmount> {
                     ),
                   ],
                   onChanged: (value) {
-                    setState(() {
-                      _typeController = value;
-                    });
+                    addMoneyPro.typeController = value;
+                    // setState(() {
+                    //   addMoneyPro.typeController = value;
+                    // });
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -261,7 +258,7 @@ class _AddAmountState extends State<AddAmount> {
                 ),
                 TextFormField(
                   textCapitalization: TextCapitalization.sentences,
-                  controller: noteController,
+                  controller: addMoneyPro.noteController,
                   decoration: const InputDecoration(
                     hintText: 'Note',
                     filled: true,
@@ -290,7 +287,8 @@ class _AddAmountState extends State<AddAmount> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      toCashButtonClicked();
+                      addMoneyProLF.addAmountButtonClicked(context: context);
+                      addMoneyProLF.clearField();
                     }
                   },
                   child: const Text(
@@ -307,39 +305,5 @@ class _AddAmountState extends State<AddAmount> {
         ),
       ),
     );
-  }
-
-  Future<void> toCashButtonClicked() async {
-    final amount = amountController.text.trim();
-    final date = dateController.text;
-    final category = _categoryController;
-    final type = _typeController;
-    final note = noteController.text;
-
-    if (amount.isEmpty ||
-        date.isEmpty ||
-        category!.isEmpty ||
-        type!.isEmpty ||
-        note.isEmpty) {
-      return;
-    }
-
-    final parsedAmount = double.tryParse(amount);
-    if (parsedAmount == null) {
-      return;
-    }
-
-    final addAmount = TransactionModel(
-        id: DateTime.now().toString(),
-        amount: parsedAmount,
-        date: pickedDate!,
-        category: category,
-        type: type,
-        notes: note);
-
-    TransactionDB().insertCashTransactions(addAmount);
-
-    Navigator.of(context).pop();
-    setState(() {});
   }
 }

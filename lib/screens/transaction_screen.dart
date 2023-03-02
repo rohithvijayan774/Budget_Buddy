@@ -5,7 +5,6 @@ import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/screens/search_transactions.dart';
 import 'package:money_management/widgets/add_amount.dart';
 
-
 import 'package:money_management/widgets/transaction_bar.dart';
 import 'package:money_management/widgets/transaction_details_screen.dart';
 
@@ -58,7 +57,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     pageBuilder: (BuildContext context,
                         Animation<double> animation,
                         Animation<double> secondaryAnimation) {
-                      return const AddAmount();
+                      return AddAmount();
                     },
                     transitionsBuilder: (BuildContext context,
                         Animation<double> animation,
@@ -171,7 +170,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         children: [
                           Container(
                               height: 100,
-                              color:const Color.fromARGB(255, 106, 110, 112),
+                              color: const Color.fromARGB(255, 14, 69, 113),
                               child: Row(
                                 // mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,10 +276,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                             )
                                           ]),
                                       child: TransactionBar(
-                                          date: transaction.date,
-                                          type: transaction.type,
-                                          amount: transaction.amount,
-                                          category: transaction.category),
+                                        date: transaction.date,
+                                        type: transaction.type,
+                                        amount: transaction.amount,
+                                        category: transaction.category,
+                                      ),
                                     ),
                                   );
                                 },

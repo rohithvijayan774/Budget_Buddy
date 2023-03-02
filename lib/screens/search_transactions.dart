@@ -156,10 +156,11 @@ class _SearchTransactionsState extends State<SearchTransactions> {
                                           )
                                         ]),
                                     child: TransactionBar(
-                                        date: transaction.date,
-                                        type: transaction.type,
-                                        amount: transaction.amount,
-                                        category: transaction.category),
+                                      date: transaction.date,
+                                      type: transaction.type,
+                                      amount: transaction.amount,
+                                      category: transaction.category,
+                                    ),
                                   ),
                                 );
                               },
