@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
@@ -21,6 +23,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log('Statitics Screen');
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -168,7 +171,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           ),
                         ),
                         Padding(
-                          padding:const EdgeInsets.only(top: 130),
+                          padding: const EdgeInsets.only(top: 130),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

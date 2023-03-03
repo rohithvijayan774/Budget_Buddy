@@ -3,7 +3,9 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/providers/add_money_provider.dart';
+import 'package:money_management/providers/home_screen_provider.dart';
 import 'package:money_management/providers/name_screen_provider.dart';
+import 'package:money_management/providers/search_traanaction_provider.dart';
 import 'package:money_management/providers/transaction_bar_provider.dart';
 import 'package:money_management/providers/user_name_bar_provider.dart';
 import 'package:money_management/screens/splash_screen.dart';
@@ -38,6 +40,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<NameScreenProvider>(
           create: (_) => NameScreenProvider(),
+        ),
+        ChangeNotifierProvider<HomeScreenProvider>(
+          create: (_) => HomeScreenProvider(),
+        ),
+        ChangeNotifierProvider<SearchTransactionsProvider>(
+          create: (_) => SearchTransactionsProvider(),
         ),
       ],
       child: MaterialApp(

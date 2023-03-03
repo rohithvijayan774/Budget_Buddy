@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:money_management/details/app_info_screen.dart';
 import 'package:money_management/details/privacy_policy_screen.dart';
@@ -11,6 +13,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('Settings Screen');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
