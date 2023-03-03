@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:money_management/model/transaction_model.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/providers/search_traanaction_provider.dart';
 import 'package:money_management/screens/splash_screen.dart';
@@ -13,41 +12,9 @@ import 'package:provider/provider.dart';
 class SearchTransactions extends StatelessWidget {
   const SearchTransactions({super.key});
 
-//   @override
-//   State<SearchTransactions> createState() => _SearchTransactionsState();
-// }
-
-// class _SearchTransactionsState extends State<SearchTransactions> {
-  // List<TransactionModel> foundTransactions = [];
-  // @override
-  // void initState() {
-  //   foundTransactions = TransactionDB().allCashTransactionList.value;
-  //   super.initState();
-  // }
-
-  // void runFilter(String enteredKeyword) {
-  //   List<TransactionModel> results = [];
-  //   if (enteredKeyword.isEmpty) {
-  //     results = TransactionDB().allCashTransactionList.value;
-  //   } else {
-  //     results = TransactionDB()
-  //         .allCashTransactionList
-  //         .value
-  //         .where((element) => element.category
-  //             .toLowerCase()
-  //             .contains(enteredKeyword.toLowerCase()))
-  //         .toList();
-  //   }
-  //   setState(() {
-  //     foundTransactions = results;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     log('message');
-    TransactionDB().refreshUI();
-    // Provider.of<SearchTransactionsProvider>(context).initialState();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

@@ -4,26 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:money_management/providers/statistics_screen_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class StatisticsScreen extends StatefulWidget {
+class StatisticsScreen extends StatelessWidget {
   const StatisticsScreen({super.key});
-
-  @override
-  State<StatisticsScreen> createState() => _StatisticsScreenState();
-}
-
-class _StatisticsScreenState extends State<StatisticsScreen> {
-  List<TransactionModel> newTransactionList =
-      TransactionDB.instance.allCashTransactionList.value;
-  List<TransactionModel> chartTransactionNotifier = [];
-
-  int dropdownValue = 0;
-  int dropdownValueforFilterSorting = 0;
 
   @override
   Widget build(BuildContext context) {
     log('Statitics Screen');
+    final pro = Provider.of<StatisticsScreenProvider>(context);
+    final proLF = Provider.of<StatisticsScreenProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -37,63 +29,50 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           padding: const EdgeInsets.only(left: 5),
           child: DropdownButtonHideUnderline(
               child: DropdownButton(
-            value: dropdownValue,
+            value: pro.dropDownValue,
             items: [
               DropdownMenuItem(
                 value: 0,
                 child: const Text('All'),
                 onTap: () {
-                  setState(() {
-                    chartTransactionNotifier =
-                        TransactionDB.instance.allCashTransactionList.value;
-                  });
+                  proLF.changeStateAllTransaction();
                 },
               ),
               DropdownMenuItem(
                 value: 1,
                 child: const Text('Income'),
                 onTap: () {
-                  setState(() {
-                    chartTransactionNotifier =
-                        TransactionDB.instance.cashIncomeNotifier.value;
-                  });
+                  proLF.changeStateIncomeNotify();
                 },
               ),
               DropdownMenuItem(
                 value: 2,
                 child: const Text('Expense'),
                 onTap: () {
-                  setState(() {
-                    chartTransactionNotifier =
-                        TransactionDB.instance.cashExpenseNotifier.value;
-                  });
+                  proLF.changeStateExpenseNotify();
                 },
               ),
             ],
             borderRadius: BorderRadius.circular(10),
             onChanged: (value) {
-              setState(() {
-                dropdownValue = value!;
-              });
+              proLF.setStateOnchanged(value);
             },
           )),
         ),
       ),
       body: ListView(
         children: [
-          dropdownValue != 0
-              ? ValueListenableBuilder(
-                  valueListenable:
-                      TransactionDB.instance.allCashTransactionList,
+          pro.dropDownValue != 0
+              ? Consumer<StatisticsScreenProvider>(
                   builder: (context, value, child) {
-                    return chartTransactionNotifier.isNotEmpty
+                    return pro.chartTransactionNotifier.isNotEmpty
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 80),
                                 child: Text(
-                                  chartTransactionNotifier ==
+                                  pro.chartTransactionNotifier ==
                                           TransactionDB
                                               .instance.cashIncomeNotifier.value
                                       ? 'Income Statistics'
@@ -121,7 +100,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                   series: <CircularSeries>[
                                     PieSeries<TransactionModel, String>(
                                       explode: true,
-                                      dataSource: chartTransactionNotifier,
+                                      dataSource: pro.chartTransactionNotifier,
                                       xValueMapper:
                                           (TransactionModel data, _) =>
                                               data.notes,

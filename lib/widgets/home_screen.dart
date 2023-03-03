@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:money_management/providers/home_screen_provider.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+// final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

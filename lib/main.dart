@@ -6,6 +6,7 @@ import 'package:money_management/providers/add_money_provider.dart';
 import 'package:money_management/providers/home_screen_provider.dart';
 import 'package:money_management/providers/name_screen_provider.dart';
 import 'package:money_management/providers/search_traanaction_provider.dart';
+import 'package:money_management/providers/statistics_screen_provider.dart';
 import 'package:money_management/providers/transaction_bar_provider.dart';
 import 'package:money_management/providers/user_name_bar_provider.dart';
 import 'package:money_management/screens/splash_screen.dart';
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<SearchTransactionsProvider>(
           create: (_) => SearchTransactionsProvider(),
+        ),
+        ChangeNotifierProvider<StatisticsScreenProvider>(
+          create: (_) => StatisticsScreenProvider(),
         ),
       ],
       child: MaterialApp(

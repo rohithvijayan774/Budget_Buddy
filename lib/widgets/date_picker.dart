@@ -1,27 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:money_management/providers/common_provider.dart';
+import 'package:provider/provider.dart';
 
-import 'package:intl/intl.dart';
-
-class DatePicker extends StatefulWidget {
+class DatePicker extends StatelessWidget {
   const DatePicker({super.key});
-
-  @override
-  State<DatePicker> createState() => _DatePickerState();
-}
-
-class _DatePickerState extends State<DatePicker> {
-  TextEditingController dateController = TextEditingController();
-  @override
-  void initState() {
-    dateController.text = " ";
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: TextField(
-        controller: dateController,
+        controller: Provider.of<CommonProvider>(context).dateController,
         decoration: const InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -33,19 +21,8 @@ class _DatePickerState extends State<DatePicker> {
         ),
         readOnly: true,
         onTap: () async {
-          DateTime? pickedDate = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2100),
-          );
-          if (pickedDate != null) {
-            String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
-
-            setState(() {
-              dateController.text = formattedDate;
-            });
-          }
+          Provider.of<CommonProvider>(context, listen: false)
+              .pickedDateChangeState(context);
         },
       ),
     );
