@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:money_management/functions/transaction_db.dart';
 import 'package:money_management/model/transaction_model.dart';
+import 'package:money_management/providers/transaction_screen_provider.dart';
+import 'package:provider/provider.dart';
 
 class AddMoneyProvider with ChangeNotifier {
   TextEditingController dateController = TextEditingController();

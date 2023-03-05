@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +77,7 @@ class TransactionDB implements TransactionDbFunction {
     allCashTransactionList.notifyListeners();
     cashIncomeNotifier.notifyListeners();
     cashExpenseNotifier.notifyListeners();
+    
   }
 
   @override
