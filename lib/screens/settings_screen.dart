@@ -5,7 +5,9 @@ import 'package:money_management/details/app_info_screen.dart';
 import 'package:money_management/details/privacy_policy_screen.dart';
 import 'package:money_management/details/terms_conditions.dart';
 import 'package:money_management/functions/transaction_db.dart';
+import 'package:money_management/providers/home_screen_provider.dart';
 import 'package:money_management/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -105,6 +107,8 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () {
                     resetApp(context);
                     TransactionDB.instance.refreshUI();
+                    Provider.of<HomeScreenProvider>(context, listen: false)
+                        .selectedCurrentIndex = 0;
                   },
                   child: Container(
                     height: 80,
